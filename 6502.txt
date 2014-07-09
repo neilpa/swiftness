@@ -1422,18 +1422,10 @@ we only wish to see the operation of the instruction itself.
 
 /* ADC */
     unsigned int temp = src + AC + (IF_CARRY() ? 1 : 0);
-    SET_ZERO(temp & 0xff);  /* This is not valid in decimal mode */
-    if (IF_DECIMAL()) {
-        if (((AC & 0xf) + (src & 0xf) + (IF_CARRY() ? 1 : 0)) > 9) temp += 6;
-    SET_SIGN(temp);
-    SET_OVERFLOW(!((AC ^ src) & 0x80) && ((AC ^ temp) & 0x80));
-    if (temp > 0x99) temp += 96;
-    SET_CARRY(temp > 0x99);
-    } else {
+    SET_ZERO(temp & 0xff);
     SET_SIGN(temp);
     SET_OVERFLOW(!((AC ^ src) & 0x80) && ((AC ^ temp) & 0x80));
     SET_CARRY(temp > 0xff);
-    }
     AC = ((BYTE) temp);
 
 /* AND */
@@ -1679,10 +1671,6 @@ we only wish to see the operation of the instruction itself.
     SET_SIGN(temp);
     SET_ZERO(temp & 0xff);  /* Sign and Zero are invalid in decimal mode */
     SET_OVERFLOW(((AC ^ temp) & 0x80) && ((AC ^ src) & 0x80));
-    if (IF_DECIMAL()) {
-    if ( ((AC & 0xf) - (IF_CARRY() ? 0 : 1)) < (src & 0xf)) /* EP */ temp -= 6;
-    if (temp > 0x99) temp -= 0x60;
-    }
     SET_CARRY(temp < 0x100);
     AC = (temp & 0xff);
 
