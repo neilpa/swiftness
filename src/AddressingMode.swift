@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Neil Pankey. All rights reserved.
 //
 
-import Foundation
-
 enum AddressingMode {
     case Implicit
     case Accumulator

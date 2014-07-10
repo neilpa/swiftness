@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Neil Pankey. All rights reserved.
 //
 
-import Foundation
-
 enum Instruction {
     case ADC    // Add Memory to Accumulator with Carry
     case AND    // "AND" Memory with Accumulator
