@@ -13,4 +13,3 @@ protocol Memory {
     // Convenience for load/store a word
     subscript (address: UInt16) -> UInt16 { get set }
 }
-
