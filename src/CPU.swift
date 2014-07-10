@@ -73,18 +73,6 @@ class CPU {
         return mem[stackOffset + Address(++sp)]
     }
     
-    // Instructions
-
-    // Load operations
-    func lda(mode: AddressingMode) {
-        a = mode.load(self)
-    }
-
-    // Store operations
-    func sta(mode: AddressingMode) {
-        mode.store(self, a)
-    }
-
     // Fetch opcode or arguments at PC and increment
     func fetch() -> Byte {
         return mem[pc++]
@@ -120,6 +108,204 @@ class CPU {
                 
             }
         }
+    }
+
+}
+
+// Instructions
+
+extension CPU {
+    
+    // Load operations
+    func lda(mode: AddressingMode) {
+        a = mode.load(self)
+    }
+    func ldx(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func ldy(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Store operations
+    func sta(mode: AddressingMode) {
+        mode.store(self, a)
+    }
+    func stx(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func sty(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Register transfer operations
+    func tax(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func tay(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func txa(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func tya(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Stack operations
+    func tsx(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func txs(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func pha(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func php(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func pla(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func plp(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Logical operations
+    func and(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func eor(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func ora(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bit(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Arithmetic operations
+    func adc(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func sbc(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func cmp(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func cpx(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func cpy(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Increment/Decrement operations
+    func inc(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func inx(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func iny(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func dec(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func dex(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func dey(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Shift operations
+    func asl(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func lsr(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func rol(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func ror(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Jump/Call operations
+    func jmp(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func jsr(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func rts(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // Branch operations
+    func bcc(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bcs(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func beq(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bmi(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bne(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bpl(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bvc(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func bvs(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+
+    // Status flag operations
+    func clc(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func cld(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func cli(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func clv(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func sec(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func sed(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func sei(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    
+    // System operations
+    func brk(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func nop(mode: AddressingMode) {
+        assert(false, "Not implemented")
+    }
+    func rti(mode: AddressingMode) {
+        assert(false, "Not implemented")
     }
 
 }
