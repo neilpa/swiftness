@@ -82,7 +82,7 @@ enum Instruction {
 }
 
 // The index corresponds to the opcode
-let instructionSet: (Instruction, AddressingMode)[] = [
+let instructionSet: [(Instruction, AddressingMode)] = [
 
     ( .BRK, .Implicit ),
     ( .ORA, .IndexedIndirectX ),

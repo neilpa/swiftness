@@ -9,9 +9,9 @@
 // Simple 64KB of memory module
 
 class RAM : Memory {
-    var data: Byte[] = Byte[](count:66000, repeatedValue:0)
+    var data: [Byte] = [Byte](count:66000, repeatedValue:0)
 
-    init (prog: Byte[]) {
+    init (prog: [Byte]) {
         // TODO Is there a better way
         for (index, byte) in enumerate(prog) {
             data[index] = byte
