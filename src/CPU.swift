@@ -108,62 +108,12 @@ class CPU {
 
     // Load operations
     func lda(mode: AddressingMode) {
-        a = load(mode)
+        a = mode.load(self)
     }
 
     // Store operations
     func sta(mode: AddressingMode) {
-        store(mode, a)
-    }
-
-    func load (mode: AddressingMode) -> UInt8 {
-        switch mode {
-            
-        case .Immediate: return fetch()
-            
-            //        case .Accumulator:
-            //        case .ZeroPage:
-            //        case .ZeroPageX:
-            //        case .ZeroPageY:
-            //        case .Relative:
-            //        case .Absolute:
-            //        case .AbsoluteX:
-            //        case .AbsoluteY:
-            //        case .Indirect:
-            //        case .IndexedIndirectX:
-            //        case .IndirectIndexedY:
-            
-        case .Implicit: fallthrough // TODO What's the right answer here
-        default:
-            assert(false)
-            return 0
-        }
-    }
-    
-    func store (mode: AddressingMode, _ value: UInt8) {
-
-        switch mode {
-            
-        case .Absolute:
-            let addr: UInt16 = cpu.fetch()
-            cpu.mem[addr] = value
-            
-            //        case .Accumulator:
-            //        case .ZeroPage:
-            //        case .ZeroPageX:
-            //        case .ZeroPageY:
-            //        case .Relative:
-            //        case .AbsoluteX:
-            //        case .AbsoluteY:
-            //        case .Indirect:
-            //        case .IndexedIndirectX:
-            //        case .IndirectIndexedY:
-            
-        case .Immediate: fallthrough
-        case .Implicit:  fallthrough // TODO What's the right answer here
-        default:
-            assert(false)
-        }
+        mode.store(self, a)
     }
 
     // Fetch opcode or arguments at PC and increment
