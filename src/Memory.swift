@@ -12,4 +12,6 @@ protocol Memory {
     
     // Convenience for load/store a word
     subscript (address: UInt16) -> UInt16 { get set }
+//    func loadWord (address: UInt16) -> UInt16
+//    func storeWord (address: UInt16, _ value: UInt16)
 }
