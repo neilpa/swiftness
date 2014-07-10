@@ -21,7 +21,7 @@ enum AddressingMode {
     case IndexedIndirectX
     case IndirectIndexedY
 
-    func load (cpu: CPU) -> UInt8 {
+    func load (cpu: CPU) -> Byte {
         switch self {
             
         case .Immediate: return cpu.fetch()
@@ -45,14 +45,14 @@ enum AddressingMode {
         }
     }
     
-    func store (cpu: CPU, _ value: UInt8) {
+    func store (cpu: CPU, _ value: Byte) {
         
         switch self {
             
         case .Absolute:
-            let addr: UInt16 = cpu.fetch()
+            let addr: Address = cpu.fetch()
             cpu.mem[addr] = value
-            
+
             //        case .Accumulator:
             //        case .ZeroPage:
             //        case .ZeroPageX:

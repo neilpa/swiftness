@@ -8,10 +8,8 @@
 
 protocol Memory {
     // Load/Store a byte
-    subscript (address: UInt16) -> UInt8 { get set }
+    subscript (address: Address) -> Byte { get set }
     
     // Convenience for load/store a word
-    subscript (address: UInt16) -> UInt16 { get set }
-//    func loadWord (address: UInt16) -> UInt16
-//    func storeWord (address: UInt16, _ value: UInt16)
+    subscript (address: Address) -> UInt16 { get set }
 }

@@ -6,64 +6,33 @@
 //  Copyright (c) 2014 Neil Pankey. All rights reserved.
 //
 
-// Convenience operators for incrementing/decrememting registers by 2. I expect
-// these to be quite handy because compound assignment (x+=2) is a statement rather
-// than an expression returning the assigned value.
+let negativeMask:   Byte = 1 << 7
+let overflowMask:   Byte = 1 << 6
+let brkMask:        Byte = 1 << 4
+let decimalMask:    Byte = 1 << 3
+let irqMask:        Byte = 1 << 2
+let zeroMask:       Byte = 1 << 1
+let carryMask:      Byte = 1 << 0
 
-operator prefix +++ {}
-operator postfix +++ {}
-operator prefix --- {}
-operator postfix --- {}
-
-@prefix @assignment func +++ (inout address: UInt16) -> UInt16 {
-    address += 2
-    return address
-}
-
-@postfix @assignment func +++ (inout address: UInt16) -> UInt16 {
-    let value = address
-    address += 2
-    return value
-}
-
-@prefix @assignment func --- (inout address: UInt16) -> UInt16 {
-    address -= 2
-    return address
-}
-
-@postfix @assignment func --- (inout address: UInt16) -> UInt16 {
-    let value = address
-    address -= 2
-    return value
-}
-
-let negativeMask:   UInt8 = 1 << 7
-let overflowMask:   UInt8 = 1 << 6
-let brkMask:        UInt8 = 1 << 4
-let decimalMask:    UInt8 = 1 << 3
-let irqMask:        UInt8 = 1 << 2
-let zeroMask:       UInt8 = 1 << 1
-let carryMask:      UInt8 = 1 << 0
-
-let stackOffset: UInt16 = 0x0100
-let resetVector: UInt16 = 0xfffe
+let stackOffset: Address = 0x0100
+let resetVector: Address = 0xfffe
 
 class CPU {
 
     // General purpose registers
-    var a: UInt8 = 0 // accumulator
-    var x: UInt8 = 0 // x indexer
-    var y: UInt8 = 0 // y indexer
+    var a: Register = 0 // accumulator
+    var x: Register = 0 // x indexer
+    var y: Register = 0 // y indexer
 
     // Stack pointer starts at the top and grows down
     // TODO Double check stack behavior
-    var sp: UInt8 = 0xff
+    var sp: Register = 0xff
 
     // Processor status flags register
-    var flags: UInt8 = 0
+    var flags: Register = 0
 
     // Program counter register
-    var pc: UInt16 = 0 // TODO resetVector
+    var pc: Address = 0 // TODO resetVector
 
     // Memory
     var mem: Memory
@@ -75,12 +44,12 @@ class CPU {
     // Register helpers
 
     // Get a bit from the status register
-    func getFlag(mask: UInt8) -> Bool {
+    func getFlag(mask: Byte) -> Bool {
         return flags & mask != 0
     }
 
     // Set or clear a bit in the status register
-    func setFlag(isSet: Bool, _ mask: UInt8) {
+    func setFlag(isSet: Bool, _ mask: Byte) {
         if (isSet) {
             flags |= mask
         } else {
@@ -89,19 +58,19 @@ class CPU {
     }
 
     // Update the negative and zero flags in the status register
-    func setNZ(v: UInt8) {
+    func setNZ(v: Byte) {
         setFlag(v == 0, zeroMask)
         setFlag(v & 0x80 != 0, negativeMask)
     }
 
     // Stack helpers
 
-    func push(v: UInt8) {
+    func push(v: Byte) {
         // TODO What if the stack pointer wraps
-        mem[stackOffset + UInt16(sp--)] = v
+        mem[stackOffset + Address(sp--)] = v
     }
-    func pop() -> UInt8 {
-        return mem[stackOffset + UInt16(++sp)]
+    func pop() -> Byte {
+        return mem[stackOffset + Address(++sp)]
     }
     
     // Instructions
@@ -117,7 +86,7 @@ class CPU {
     }
 
     // Fetch opcode or arguments at PC and increment
-    func fetch() -> UInt8 {
+    func fetch() -> Byte {
         return mem[pc++]
     }
     func fetch() -> UInt16 {
@@ -125,14 +94,14 @@ class CPU {
     }
     
     // Decode the operation
-    func decode(opcode: UInt8) -> (Instruction, AddressingMode) {
+    func decode(opcode: Byte) -> (Instruction, AddressingMode) {
         return instructionSet[Int(opcode)]
     }
 
     // The fetch-decode-execute loop
     func run() {
         while (true) {
-            let code: UInt8 = fetch()
+            let code: Byte = fetch()
             let (instruction, mode) = decode(code)
 
             switch instruction {

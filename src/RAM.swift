@@ -9,16 +9,16 @@
 // Simple 64KB of memory module
 
 class RAM : Memory {
-    var data: UInt8[] = UInt8[](count:66000, repeatedValue:0)
+    var data: Byte[] = Byte[](count:66000, repeatedValue:0)
 
-    init (prog: UInt8[]) {
+    init (prog: Byte[]) {
         // TODO Is there a better way
         for (index, byte) in enumerate(prog) {
             data[index] = byte
         }
     }
     
-    subscript (address: UInt16) -> UInt8 {
+    subscript (address: Address) -> Byte {
         get {
             return data[Int(address)]
         }
@@ -27,16 +27,15 @@ class RAM : Memory {
         }
     }
 
-    subscript (address: UInt16) -> UInt16 {
+    subscript (address: Address) -> UInt16 {
         get {
             let lsb = data[Int(address)]
             let msb = data[Int(address+1)]
-            let res = UInt16(msb) << 8 | UInt16(lsb)
-            return res
+            return UInt16(msb) << 8 | UInt16(lsb)
         }
         set {
-            data[Int(address)] = UInt8(newValue)
-            data[Int(address+1)] = UInt8(newValue >> 8)
+            data[Int(address)] = Byte(newValue)
+            data[Int(address+1)] = Byte(newValue >> 8)
         }
     }
 }
