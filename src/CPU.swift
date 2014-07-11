@@ -47,7 +47,7 @@ class CPU {
     func getFlag(mask: Byte) -> Bool {
         return flags & mask != 0
     }
-
+    
     // Set or clear a bit in the status register
     func setFlag(isSet: Bool, _ mask: Byte) {
         if (isSet) {
@@ -115,7 +115,7 @@ class CPU {
 // Instructions
 
 extension CPU {
-    
+
     // Load operations
     func lda(mode: AddressingMode) {
         a = mode.load(self)
@@ -129,7 +129,7 @@ extension CPU {
         y = mode.load(self)
         setNZ(y)
     }
-    
+
     // Store operations
     func sta(mode: AddressingMode) {
         mode.store(self, a)
@@ -140,7 +140,7 @@ extension CPU {
     func sty(mode: AddressingMode) {
         mode.store(self, y)
     }
-    
+
     // Register transfer operations
     func tax(mode: AddressingMode) {
         assert(mode == AddressingMode.Implicit)
@@ -148,65 +148,126 @@ extension CPU {
         setNZ(x)
     }
     func tay(mode: AddressingMode) {
-        assert(mode == AddressingMode.Implicit)
+        assert(mode == .Implicit)
         y = a
         setNZ(y)
     }
     func txa(mode: AddressingMode) {
-        assert(mode == AddressingMode.Implicit)
+        assert(mode == .Implicit)
         a = x
         setNZ(a)
     }
     func tya(mode: AddressingMode) {
-        assert(mode == AddressingMode.Implicit)
+        assert(mode == .Implicit)
         a = y
         setNZ(a)
     }
     func tsx(mode: AddressingMode) {
-        assert(mode == AddressingMode.Implicit)
+        assert(mode == .Implicit)
         x = sp
         setNZ(x)
     }
     func txs(mode: AddressingMode) {
-        assert(mode == AddressingMode.Implicit)
+        assert(mode == .Implicit)
         sp = x
     }
-    
+
     // Stack operations
     func pha(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == .Implicit)
+        push(a)
     }
     func php(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == .Implicit)
+        push(flags)
     }
     func pla(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == .Implicit)
+        a = pop()
     }
     func plp(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == .Implicit)
+        flags = pop()
     }
-    
+
     // Logical operations
     func and(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        a &= mode.load(self)
+        setNZ(a)
     }
     func eor(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        a ^= mode.load(self)
+        setNZ(a)
     }
     func ora(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        a |= mode.load(self)
+        setNZ(a)
     }
     func bit(mode: AddressingMode) {
         assert(false, "Not implemented")
+        let v = mode.load(self)
+        setFlag(v & a == 0, zeroMask)
+        setFlag(v & 0x80 != 0, negativeMask)
+        setFlag(v & 0x40 != 0, overflowMask)
     }
-    
+
     // Arithmetic operations
     func adc(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let val = mode.load(self)
+
+        // Let Swift figure out carry and overflow
+        var (res, carry) = Byte.addWithOverflow(a, val)
+        var (signed, overflow) = Int8.addWithOverflow(a.asSigned(), val.asSigned())
+
+        // Check if that final bit pushes us over the top
+        if (getFlag(carryMask)) {
+            if !carry {
+                (res, carry) = Byte.addWithOverflow(res, 1)
+            } else {
+                // Already, one more bit isn't going to change that
+                (res, _) = Byte.addWithOverflow(res, 1)
+            }
+            
+            if !overflow {
+                // Still need to check for signed overflow on the last bit
+                (_, overflow) = Int8.addWithOverflow(signed, 1)
+            }
+        }
+        
+        setFlag(carry, carryMask)
+        setFlag(overflow, overflowMask)
+        setNZ(res)
+        a = res
     }
     func sbc(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let val = mode.load(self)
+        
+        // Let Swift figure out carry and overflow
+        var (res, carry) = Byte.subtractWithOverflow(a, val)
+        var (signed, overflow) = Int8.subtractWithOverflow(a.asSigned(), val.asSigned())
+        
+        // Check if that final bit pushes us over the top
+        if (getFlag(carryMask)) {
+            if !carry {
+                (res, carry) = Byte.subtractWithOverflow(res, 1)
+            } else {
+                // Already, one more bit isn't going to change that
+                (res, _) = Byte.subtractWithOverflow(res, 1)
+            }
+            
+            if !overflow {
+                // Still need to check for signed overflow on the last bit
+                (_, overflow) = Int8.subtractWithOverflow(signed, 1)
+            }
+        }
+        
+        setFlag(carry, carryMask)
+        setFlag(overflow, overflowMask)
+        setNZ(res)
+        a = res
     }
+    
+    // Comparison operations
     func cmp(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
@@ -216,8 +277,8 @@ extension CPU {
     func cpy(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
-    
-    // Increment/Decrement operations
+
+    // Increment operations
     func inc(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
@@ -227,6 +288,8 @@ extension CPU {
     func iny(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
+
+    // Decrement operations
     func dec(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
@@ -236,7 +299,7 @@ extension CPU {
     func dey(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
-    
+
     // Shift operations
     func asl(mode: AddressingMode) {
         assert(false, "Not implemented")
@@ -250,18 +313,20 @@ extension CPU {
     func ror(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
-    
-    // Jump/Call operations
+
+    // Jump operations
     func jmp(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
+    
+    // Call operations
     func jsr(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
     func rts(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
-    
+
     // Branch operations
     func bcc(mode: AddressingMode) {
         assert(false, "Not implemented")
@@ -310,7 +375,7 @@ extension CPU {
     func sei(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
-    
+
     // System operations
     func brk(mode: AddressingMode) {
         assert(false, "Not implemented")
