@@ -58,9 +58,10 @@ class CPU {
     }
 
     // Update the negative and zero flags in the status register
-    func setNZ(v: Byte) {
-        setFlag(v == 0, zeroMask)
-        setFlag(v & 0x80 != 0, negativeMask)
+    func setNZ(val: Byte) -> Byte {
+        setFlag(val == 0, zeroMask)
+        setFlag(val & 0x80 != 0, negativeMask)
+        return val
     }
 
     // Stack helpers
@@ -168,16 +169,13 @@ extension CPU {
 
     // Load operations
     func lda(mode: AddressingMode) {
-        a = mode.load(self)
-        setNZ(a)
+        a = setNZ(mode.load(self))
     }
     func ldx(mode: AddressingMode) {
-        x = mode.load(self)
-        setNZ(x)
+        x = setNZ(mode.load(self))
     }
     func ldy(mode: AddressingMode) {
-        y = mode.load(self)
-        setNZ(y)
+        y = setNZ(mode.load(self))
     }
 
     // Store operations
@@ -194,28 +192,23 @@ extension CPU {
     // Register transfer operations
     func tax(mode: AddressingMode) {
         assert(mode == AddressingMode.Implicit)
-        x = a
-        setNZ(x)
+        x = setNZ(a)
     }
     func tay(mode: AddressingMode) {
         assert(mode == .Implicit)
-        y = a
-        setNZ(y)
+        y = setNZ(a)
     }
     func txa(mode: AddressingMode) {
         assert(mode == .Implicit)
-        a = x
-        setNZ(a)
+        a = setNZ(x)
     }
     func tya(mode: AddressingMode) {
         assert(mode == .Implicit)
-        a = y
-        setNZ(a)
+        a = setNZ(y)
     }
     func tsx(mode: AddressingMode) {
         assert(mode == .Implicit)
-        x = sp
-        setNZ(x)
+        x = setNZ(sp)
     }
     func txs(mode: AddressingMode) {
         assert(mode == .Implicit)
@@ -242,23 +235,20 @@ extension CPU {
 
     // Logical operations
     func and(mode: AddressingMode) {
-        a &= mode.load(self)
-        setNZ(a)
+        a = setNZ(a & mode.load(self))
     }
     func eor(mode: AddressingMode) {
-        a ^= mode.load(self)
-        setNZ(a)
+        a = setNZ(a ^ mode.load(self))
     }
     func ora(mode: AddressingMode) {
-        a |= mode.load(self)
-        setNZ(a)
+        a = setNZ(a | mode.load(self))
     }
     func bit(mode: AddressingMode) {
         assert(false, "Not implemented")
-        let v = mode.load(self)
-        setFlag(v & a == 0, zeroMask)
-        setFlag(v & 0x80 != 0, negativeMask)
-        setFlag(v & 0x40 != 0, overflowMask)
+        let val = mode.load(self)
+        setFlag(val & a == 0, zeroMask)
+        setFlag(val & 0x80 != 0, negativeMask)
+        setFlag(val & 0x40 != 0, overflowMask)
     }
 
     // Arithmetic operations
@@ -287,8 +277,7 @@ extension CPU {
         
         setFlag(carry, carryMask)
         setFlag(overflow, overflowMask)
-        setNZ(res)
-        a = res
+        a = setNZ(res)
     }
     func sbc(mode: AddressingMode) {
         let val = mode.load(self)
@@ -314,8 +303,7 @@ extension CPU {
         
         setFlag(carry, carryMask)
         setFlag(overflow, overflowMask)
-        setNZ(res)
-        a = res
+        a = setNZ(res)
     }
 
     // Comparison operations
