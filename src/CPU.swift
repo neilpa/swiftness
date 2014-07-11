@@ -40,14 +40,14 @@ class CPU {
     init(memory: Memory) {
         mem = memory
     }
-    
+
     // Register helpers
 
     // Get a bit from the status register
     func getFlag(mask: Byte) -> Bool {
         return flags & mask != 0
     }
-    
+
     // Set or clear a bit in the status register
     func setFlag(isSet: Bool, _ mask: Byte) {
         if (isSet) {
@@ -73,7 +73,7 @@ class CPU {
     func pop() -> Byte {
         return mem[stackOffset + Address(++sp)]
     }
-    
+
     // Fetch opcode or arguments at PC and increment
     func fetch() -> Byte {
         return mem[pc++]
@@ -81,7 +81,7 @@ class CPU {
     func fetch() -> UInt16 {
         return mem[pc+++]
     }
-    
+
     // Decode the operation
     func decode(opcode: Byte) -> (Instruction, AddressingMode) {
         return instructionSet[Int(opcode)]
@@ -92,64 +92,65 @@ class CPU {
         while (true) {
             let code: Byte = fetch()
             let (instruction, mode) = decode(code)
+            let slot = mode.resolve(self)
 
             switch instruction {
 
-            case .ADC: adc(mode)
-            case .AND: and(mode)
-            case .ASL: asl(mode)
-            case .BCC: bcc(mode)
-            case .BCS: bcs(mode)
-            case .BEQ: beq(mode)
-            case .BIT: bit(mode)
-            case .BMI: bmi(mode)
-            case .BNE: bne(mode)
-            case .BPL: bpl(mode)
-            case .BVC: bvc(mode)
-            case .BVS: bvs(mode)
-            case .CLC: clc(mode)
-            case .CLD: cld(mode)
-            case .CLI: cli(mode)
-            case .CLV: clv(mode)
-            case .CMP: cmp(mode)
-            case .CPX: cpx(mode)
-            case .CPY: cpy(mode)
-            case .DEC: dec(mode)
-            case .DEX: dex(mode)
-            case .DEY: dey(mode)
-            case .EOR: eor(mode)
-            case .INC: inc(mode)
-            case .INX: inx(mode)
-            case .INY: iny(mode)
-            case .JMP: jmp(mode)
-            case .JSR: jsr(mode)
-            case .LDA: lda(mode)
-            case .LDX: ldx(mode)
-            case .LDY: ldy(mode)
-            case .LSR: lsr(mode)
-            case .NOP: nop(mode)
-            case .ORA: ora(mode)
-            case .PHA: pha(mode)
-            case .PHP: php(mode)
-            case .PLA: pla(mode)
-            case .PLP: plp(mode)
-            case .ROL: rol(mode)
-            case .ROR: ror(mode)
-            case .RTI: rti(mode)
-            case .RTS: rts(mode)
-            case .SBC: sbc(mode)
-            case .SEC: sec(mode)
-            case .SED: sed(mode)
-            case .SEI: sei(mode)
-            case .STA: sta(mode)
-            case .STX: stx(mode)
-            case .STY: sty(mode)
-            case .TAX: tax(mode)
-            case .TAY: tay(mode)
-            case .TSX: tsx(mode)
-            case .TXA: txa(mode)
-            case .TXS: txs(mode)
-            case .TYA: tya(mode)
+            case .ADC: adc(slot)
+            case .AND: and(slot)
+            case .ASL: asl(slot)
+            case .BCC: bcc(slot)
+            case .BCS: bcs(slot)
+            case .BEQ: beq(slot)
+            case .BIT: bit(slot)
+            case .BMI: bmi(slot)
+            case .BNE: bne(slot)
+            case .BPL: bpl(slot)
+            case .BVC: bvc(slot)
+            case .BVS: bvs(slot)
+            case .CLC: clc(slot)
+            case .CLD: cld(slot)
+            case .CLI: cli(slot)
+            case .CLV: clv(slot)
+            case .CMP: cmp(slot)
+            case .CPX: cpx(slot)
+            case .CPY: cpy(slot)
+            case .DEC: dec(slot)
+            case .DEX: dex(slot)
+            case .DEY: dey(slot)
+            case .EOR: eor(slot)
+            case .INC: inc(slot)
+            case .INX: inx(slot)
+            case .INY: iny(slot)
+            case .JMP: jmp(slot)
+            case .JSR: jsr(slot)
+            case .LDA: lda(slot)
+            case .LDX: ldx(slot)
+            case .LDY: ldy(slot)
+            case .LSR: lsr(slot)
+            case .NOP: nop(slot)
+            case .ORA: ora(slot)
+            case .PHA: pha(slot)
+            case .PHP: php(slot)
+            case .PLA: pla(slot)
+            case .PLP: plp(slot)
+            case .ROL: rol(slot)
+            case .ROR: ror(slot)
+            case .RTI: rti(slot)
+            case .RTS: rts(slot)
+            case .SBC: sbc(slot)
+            case .SEC: sec(slot)
+            case .SED: sed(slot)
+            case .SEI: sei(slot)
+            case .STA: sta(slot)
+            case .STX: stx(slot)
+            case .STY: sty(slot)
+            case .TAX: tax(slot)
+            case .TAY: tay(slot)
+            case .TSX: tsx(slot)
+            case .TXA: txa(slot)
+            case .TXS: txs(slot)
+            case .TYA: tya(slot)
 
             // TODO For now use BRK to halt execution
             case .BRK: return
@@ -168,84 +169,73 @@ class CPU {
 extension CPU {
 
     // Load operations
-    func lda(mode: AddressingMode) {
-        a = setNZ(mode.load(self))
+    func lda(slot: Slot) {
+        a = setNZ(slot.load())
     }
-    func ldx(mode: AddressingMode) {
-        x = setNZ(mode.load(self))
+    func ldx(slot: Slot) {
+        x = setNZ(slot.load())
     }
-    func ldy(mode: AddressingMode) {
-        y = setNZ(mode.load(self))
+    func ldy(slot: Slot) {
+        y = setNZ(slot.load())
     }
 
     // Store operations
-    func sta(mode: AddressingMode) {
-        mode.store(self, a)
+    func sta(slot: Slot) {
+        slot.store(a)
     }
-    func stx(mode: AddressingMode) {
-        mode.store(self, x)
+    func stx(slot: Slot) {
+        slot.store(x)
     }
-    func sty(mode: AddressingMode) {
-        mode.store(self, y)
+    func sty(slot: Slot) {
+        slot.store(y)
     }
 
     // Register transfer operations
-    func tax(mode: AddressingMode) {
-        assert(mode == AddressingMode.Implicit)
+    func tax(slot: Slot) {
         x = setNZ(a)
     }
-    func tay(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func tay(slot: Slot) {
         y = setNZ(a)
     }
-    func txa(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func txa(slot: Slot) {
         a = setNZ(x)
     }
-    func tya(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func tya(slot: Slot) {
         a = setNZ(y)
     }
-    func tsx(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func tsx(slot: Slot) {
         x = setNZ(sp)
     }
-    func txs(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func txs(slot: Slot) {
         sp = x
     }
 
     // Stack operations
-    func pha(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func pha(slot: Slot) {
         push(a)
     }
-    func php(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func php(slot: Slot) {
         push(flags)
     }
-    func pla(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func pla(slot: Slot) {
         a = pop()
     }
-    func plp(mode: AddressingMode) {
-        assert(mode == .Implicit)
+    func plp(slot: Slot) {
         flags = pop()
     }
 
     // Logical operations
-    func and(mode: AddressingMode) {
-        a = setNZ(a & mode.load(self))
+    func and(slot: Slot) {
+        a = setNZ(a & slot.load())
     }
-    func eor(mode: AddressingMode) {
-        a = setNZ(a ^ mode.load(self))
+    func eor(slot: Slot) {
+        a = setNZ(a ^ slot.load())
     }
-    func ora(mode: AddressingMode) {
-        a = setNZ(a | mode.load(self))
+    func ora(slot: Slot) {
+        a = setNZ(a | slot.load())
     }
-    func bit(mode: AddressingMode) {
-        assert(false, "Not implemented")
-        let val = mode.load(self)
+    func bit(slot: Slot) {
+        let val = slot.load()
         setFlag(val & a == 0, zeroMask)
         setFlag(val & 0x80 != 0, negativeMask)
         setFlag(val & 0x40 != 0, overflowMask)
@@ -253,8 +243,8 @@ extension CPU {
 
     // Arithmetic operations
     // TODO adc and sbc are identical except for addWithOverflow/subtractWithOverflow
-    func adc(mode: AddressingMode) {
-        let val = mode.load(self)
+    func adc(slot: Slot) {
+        let val = slot.load()
 
         // Let Swift figure out carry and overflow
         var (res, carry) = Byte.addWithOverflow(a, val)
@@ -268,24 +258,24 @@ extension CPU {
                 // Already, one more bit isn't going to change that
                 (res, _) = Byte.addWithOverflow(res, 1)
             }
-            
+
             if !overflow {
                 // Still need to check for signed overflow on the last bit
                 (_, overflow) = Int8.addWithOverflow(signed, 1)
             }
         }
-        
+
         setFlag(carry, carryMask)
         setFlag(overflow, overflowMask)
         a = setNZ(res)
     }
-    func sbc(mode: AddressingMode) {
-        let val = mode.load(self)
-        
+    func sbc(slot: Slot) {
+        let val = slot.load()
+
         // Let Swift figure out carry and overflow
         var (res, carry) = Byte.subtractWithOverflow(a, val)
         var (signed, overflow) = Int8.subtractWithOverflow(a.asSigned(), val.asSigned())
-        
+
         // Check if that final bit pushes us over the top
         if (getFlag(carryMask)) {
             if !carry {
@@ -294,152 +284,146 @@ extension CPU {
                 // Already, one more bit isn't going to change that
                 (res, _) = Byte.subtractWithOverflow(res, 1)
             }
-            
+
             if !overflow {
                 // Still need to check for signed overflow on the last bit
                 (_, overflow) = Int8.subtractWithOverflow(signed, 1)
             }
         }
-        
+
         setFlag(carry, carryMask)
         setFlag(overflow, overflowMask)
         a = setNZ(res)
     }
 
     // Comparison operations
-    func compare(mode: AddressingMode, _ reg: Register) {
-        let val = mode.load(self)
+    func compare(slot: Slot, _ reg: Register) {
+        let val = slot.load()
         setFlag(reg >= val, carryMask)
 
         let (res, _) = Byte.subtractWithOverflow(reg, val)
         setNZ(res)
     }
-    func cmp(mode: AddressingMode) {
-        compare(mode, a)
+    func cmp(slot: Slot) {
+        compare(slot, a)
     }
-    func cpx(mode: AddressingMode) {
-        compare(mode, x)
+    func cpx(slot: Slot) {
+        compare(slot, x)
     }
-    func cpy(mode: AddressingMode) {
-        compare(mode, y)
+    func cpy(slot: Slot) {
+        compare(slot, y)
     }
 
     // Increment operations
-    func inc(mode: AddressingMode) {
-        // TODO addressing mode delegation breaks down here. Need to capture the
-        // original address for the load/store combo to work here
+    func inc(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func inx(mode: AddressingMode) {
+    func inx(slot: Slot) {
         let (res, _) = Byte.addWithOverflow(x, 1)
         x = setNZ(res)
     }
-    func iny(mode: AddressingMode) {
+    func iny(slot: Slot) {
         let (res, _) = Byte.addWithOverflow(y, 1)
         y = setNZ(res)
     }
 
     // Decrement operations
-    func dec(mode: AddressingMode) {
-        // TODO addressing mode delegation breaks down here. Need to capture the
-        // original address for the load/store combo to work here
+    func dec(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func dex(mode: AddressingMode) {
+    func dex(slot: Slot) {
         let (res, _) = Byte.subtractWithOverflow(x, 1)
         x = setNZ(res)
     }
-    func dey(mode: AddressingMode) {
+    func dey(slot: Slot) {
         let (res, _) = Byte.subtractWithOverflow(y, 1)
         y = setNZ(res)
     }
 
     // Shift operations
-    // TODO addressing mode delegation breaks down here. Need to capture the
-    // original address for the load/store combo to work here
-    func asl(mode: AddressingMode) {
+    func asl(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func lsr(mode: AddressingMode) {
+    func lsr(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func rol(mode: AddressingMode) {
+    func rol(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func ror(mode: AddressingMode) {
+    func ror(slot: Slot) {
         assert(false, "Not implemented")
     }
 
     // Jump operations
-    func jmp(mode: AddressingMode) {
+    func jmp(slot: Slot) {
         assert(false, "Not implemented")
     }
-    
+
     // Call operations
-    func jsr(mode: AddressingMode) {
+    func jsr(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func rts(mode: AddressingMode) {
+    func rts(slot: Slot) {
         assert(false, "Not implemented")
     }
 
     // Branch operations
-    func bcc(mode: AddressingMode) {
+    func bcc(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func bcs(mode: AddressingMode) {
+    func bcs(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func beq(mode: AddressingMode) {
+    func beq(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func bmi(mode: AddressingMode) {
+    func bmi(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func bne(mode: AddressingMode) {
+    func bne(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func bpl(mode: AddressingMode) {
+    func bpl(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func bvc(mode: AddressingMode) {
+    func bvc(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func bvs(mode: AddressingMode) {
+    func bvs(slot: Slot) {
         assert(false, "Not implemented")
     }
 
     // Status flag operations
-    func clc(mode: AddressingMode) {
+    func clc(slot: Slot) {
         setFlag(false, carryMask)
     }
-    func cld(mode: AddressingMode) {
+    func cld(slot: Slot) {
         setFlag(false, decimalMask)
     }
-    func cli(mode: AddressingMode) {
+    func cli(slot: Slot) {
         setFlag(false, irqMask)
     }
-    func clv(mode: AddressingMode) {
+    func clv(slot: Slot) {
         setFlag(false, overflowMask)
     }
-    func sec(mode: AddressingMode) {
+    func sec(slot: Slot) {
         setFlag(true, carryMask)
     }
-    func sed(mode: AddressingMode) {
+    func sed(slot: Slot) {
         setFlag(true, decimalMask)
     }
-    func sei(mode: AddressingMode) {
+    func sei(slot: Slot) {
         setFlag(true, irqMask)
     }
 
     // System operations
-    func brk(mode: AddressingMode) {
+    func brk(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func nop(mode: AddressingMode) {
+    func nop(slot: Slot) {
         assert(false, "Not implemented")
     }
-    func rti(mode: AddressingMode) {
+    func rti(slot: Slot) {
         assert(false, "Not implemented")
     }
 
