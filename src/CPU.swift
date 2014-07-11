@@ -83,85 +83,76 @@ class CPU {
     }
 
     // Decode the operation
-    func decode(opcode: Byte) -> (Instruction, AddressingMode) {
-        return instructionSet[Int(opcode)]
+    func decode(opcode: Byte) -> (Instruction, Slot) {
+        let (instruction, mode) = instructionSet[Int(opcode)]
+        return (instruction, mode.resolve(self))
     }
 
-    // The fetch-decode-execute loop
-    func run() {
-        while (true) {
-            let code: Byte = fetch()
-            let (instruction, mode) = decode(code)
-            let slot = mode.resolve(self)
+    // Step a single fetch-decode-execute cycle
+    func step() {
+        let code: Byte = fetch()
+        let (instruction, slot) = decode(code)
 
-            switch instruction {
-
-            case .ADC: adc(slot)
-            case .AND: and(slot)
-            case .ASL: asl(slot)
-            case .BCC: bcc(slot)
-            case .BCS: bcs(slot)
-            case .BEQ: beq(slot)
-            case .BIT: bit(slot)
-            case .BMI: bmi(slot)
-            case .BNE: bne(slot)
-            case .BPL: bpl(slot)
-            case .BVC: bvc(slot)
-            case .BVS: bvs(slot)
-            case .CLC: clc(slot)
-            case .CLD: cld(slot)
-            case .CLI: cli(slot)
-            case .CLV: clv(slot)
-            case .CMP: cmp(slot)
-            case .CPX: cpx(slot)
-            case .CPY: cpy(slot)
-            case .DEC: dec(slot)
-            case .DEX: dex(slot)
-            case .DEY: dey(slot)
-            case .EOR: eor(slot)
-            case .INC: inc(slot)
-            case .INX: inx(slot)
-            case .INY: iny(slot)
-            case .JMP: jmp(slot)
-            case .JSR: jsr(slot)
-            case .LDA: lda(slot)
-            case .LDX: ldx(slot)
-            case .LDY: ldy(slot)
-            case .LSR: lsr(slot)
-            case .NOP: nop(slot)
-            case .ORA: ora(slot)
-            case .PHA: pha(slot)
-            case .PHP: php(slot)
-            case .PLA: pla(slot)
-            case .PLP: plp(slot)
-            case .ROL: rol(slot)
-            case .ROR: ror(slot)
-            case .RTI: rti(slot)
-            case .RTS: rts(slot)
-            case .SBC: sbc(slot)
-            case .SEC: sec(slot)
-            case .SED: sed(slot)
-            case .SEI: sei(slot)
-            case .STA: sta(slot)
-            case .STX: stx(slot)
-            case .STY: sty(slot)
-            case .TAX: tax(slot)
-            case .TAY: tay(slot)
-            case .TSX: tsx(slot)
-            case .TXA: txa(slot)
-            case .TXS: txs(slot)
-            case .TYA: tya(slot)
-
-            // TODO For now use BRK to halt execution
-            case .BRK: return
-
-            // Unrecognized opcode
-            default: assert(false)
-
-            }
+        switch instruction {
+        case .ADC: adc(slot)
+        case .AND: and(slot)
+        case .ASL: asl(slot)
+        case .BCC: bcc(slot)
+        case .BCS: bcs(slot)
+        case .BEQ: beq(slot)
+        case .BIT: bit(slot)
+        case .BMI: bmi(slot)
+        case .BNE: bne(slot)
+        case .BPL: bpl(slot)
+        case .BRK: brk(slot)
+        case .BVC: bvc(slot)
+        case .BVS: bvs(slot)
+        case .CLC: clc(slot)
+        case .CLD: cld(slot)
+        case .CLI: cli(slot)
+        case .CLV: clv(slot)
+        case .CMP: cmp(slot)
+        case .CPX: cpx(slot)
+        case .CPY: cpy(slot)
+        case .DEC: dec(slot)
+        case .DEX: dex(slot)
+        case .DEY: dey(slot)
+        case .EOR: eor(slot)
+        case .INC: inc(slot)
+        case .INX: inx(slot)
+        case .INY: iny(slot)
+        case .JMP: jmp(slot)
+        case .JSR: jsr(slot)
+        case .LDA: lda(slot)
+        case .LDX: ldx(slot)
+        case .LDY: ldy(slot)
+        case .LSR: lsr(slot)
+        case .NOP: nop(slot)
+        case .ORA: ora(slot)
+        case .PHA: pha(slot)
+        case .PHP: php(slot)
+        case .PLA: pla(slot)
+        case .PLP: plp(slot)
+        case .ROL: rol(slot)
+        case .ROR: ror(slot)
+        case .RTI: rti(slot)
+        case .RTS: rts(slot)
+        case .SBC: sbc(slot)
+        case .SEC: sec(slot)
+        case .SED: sed(slot)
+        case .SEI: sei(slot)
+        case .STA: sta(slot)
+        case .STX: stx(slot)
+        case .STY: sty(slot)
+        case .TAX: tax(slot)
+        case .TAY: tay(slot)
+        case .TSX: tsx(slot)
+        case .TXA: txa(slot)
+        case .TXS: txs(slot)
+        case .TYA: tya(slot)
+        default: assert(false, "Unrecognized opcode")
         }
     }
-
 }
 
 // Instructions
