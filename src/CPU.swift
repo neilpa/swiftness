@@ -15,7 +15,10 @@ let zeroMask:       Byte = 1 << 1
 let carryMask:      Byte = 1 << 0
 
 let stackOffset: Address = 0x0100
-let resetVector: Address = 0xfffe
+
+let nmiVector:   Address = 0xfffa
+let resetVector: Address = 0xfffc
+let irqVector:   Address = 0xfffe
 
 class CPU {
 
@@ -360,7 +363,6 @@ extension CPU {
         pc = addr
     }
     func rts(mode: AddressingMode) {
-        assert(false, "Not implemented")
         pc = Address(low: pop(), high: pop()) + 1
     }
 
@@ -421,15 +423,22 @@ extension CPU {
         setFlag(true, irqMask)
     }
 
-    // System operations
+    // Interrupt operations
     func brk(mode: AddressingMode) {
-        assert(false, "Not implemented")
-    }
-    func nop(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let ret = pc + 1
+        push(ret.highByte)
+        push(ret.lowByte)
+        push(flags)
+
+        pc = mem[irqVector]
+        setFlag(true, irqMask)
     }
     func rti(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        flags = pop()
+        pc = Address(low: pop(), high: pop())
     }
 
+    // No operation
+    func nop(mode: AddressingMode) {
+    }
 }
