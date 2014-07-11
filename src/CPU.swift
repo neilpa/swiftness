@@ -326,24 +326,32 @@ extension CPU {
 
     // Increment operations
     func inc(mode: AddressingMode) {
+        // TODO addressing mode delegation breaks down here. Need to capture the
+        // original address for the load/store combo to work here
         assert(false, "Not implemented")
     }
     func inx(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let (res, _) = Byte.addWithOverflow(x, 1)
+        x = setNZ(res)
     }
     func iny(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let (res, _) = Byte.addWithOverflow(y, 1)
+        y = setNZ(res)
     }
 
     // Decrement operations
     func dec(mode: AddressingMode) {
+        // TODO addressing mode delegation breaks down here. Need to capture the
+        // original address for the load/store combo to work here
         assert(false, "Not implemented")
     }
     func dex(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let (res, _) = Byte.subtractWithOverflow(x, 1)
+        x = setNZ(res)
     }
     func dey(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let (res, _) = Byte.subtractWithOverflow(y, 1)
+        y = setNZ(res)
     }
 
     // Shift operations
