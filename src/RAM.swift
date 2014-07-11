@@ -34,8 +34,8 @@ class RAM : Memory {
             return UInt16(msb) << 8 | UInt16(lsb)
         }
         set {
-            data[Int(address)] = Byte(newValue)
-            data[Int(address+1)] = Byte(newValue >> 8)
+            data[Int(address)] = newValue.lowByte
+            data[Int(address+1)] = newValue.highByte
         }
     }
 }
