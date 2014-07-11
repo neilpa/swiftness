@@ -309,7 +309,9 @@ extension CPU {
 
     // Increment operations
     func inc(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let slot = mode.resolve(self)
+        let (res, _) = Byte.addWithOverflow(slot.load(), 1)
+        slot.store(setNZ(res))
     }
     func inx(mode: AddressingMode) {
         let (res, _) = Byte.addWithOverflow(x, 1)
@@ -322,7 +324,9 @@ extension CPU {
 
     // Decrement operations
     func dec(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let slot = mode.resolve(self)
+        let (res, _) = Byte.subtractWithOverflow(slot.load(), 1)
+        slot.store(setNZ(res))
     }
     func dex(mode: AddressingMode) {
         let (res, _) = Byte.subtractWithOverflow(x, 1)
@@ -335,16 +339,36 @@ extension CPU {
 
     // Shift operations
     func asl(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let slot = mode.resolve(self)
+        let val = slot.load()
+        setFlag(val & 0x80 != 0, carryMask)
+        slot.store(setNZ(val << 1))
     }
     func lsr(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let slot = mode.resolve(self)
+        let val = slot.load()
+        setFlag(val & 0x01 != 0, carryMask)
+        slot.store(setNZ(val >> 1))
     }
     func rol(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let slot = mode.resolve(self)
+        let val = slot.load()
+        var res = val << 1
+        if (getFlag(carryMask)) {
+            res &= 0x01
+        }
+        setFlag(val & 0x80 != 0, carryMask)
+        slot.store(setNZ(res))
     }
     func ror(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        let slot = mode.resolve(self)
+        let val = slot.load()
+        var res = val >> 1
+        if (getFlag(carryMask)) {
+            res &= 0x80
+        }
+        setFlag(val & 0x01 != 0, carryMask)
+        slot.store(setNZ(res))
     }
 
     // Jump operations
