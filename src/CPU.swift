@@ -119,12 +119,15 @@ extension CPU {
     // Load operations
     func lda(mode: AddressingMode) {
         a = mode.load(self)
+        setNZ(a)
     }
     func ldx(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        x = mode.load(self)
+        setNZ(x)
     }
     func ldy(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        y = mode.load(self)
+        setNZ(y)
     }
     
     // Store operations
@@ -132,33 +135,44 @@ extension CPU {
         mode.store(self, a)
     }
     func stx(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        mode.store(self, x)
     }
     func sty(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        mode.store(self, y)
     }
     
     // Register transfer operations
     func tax(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == AddressingMode.Implicit)
+        x = a
+        setNZ(x)
     }
     func tay(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == AddressingMode.Implicit)
+        y = a
+        setNZ(y)
     }
     func txa(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == AddressingMode.Implicit)
+        a = x
+        setNZ(a)
     }
     func tya(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        assert(mode == AddressingMode.Implicit)
+        a = y
+        setNZ(a)
+    }
+    func tsx(mode: AddressingMode) {
+        assert(mode == AddressingMode.Implicit)
+        x = sp
+        setNZ(x)
+    }
+    func txs(mode: AddressingMode) {
+        assert(mode == AddressingMode.Implicit)
+        sp = x
     }
     
     // Stack operations
-    func tsx(mode: AddressingMode) {
-        assert(false, "Not implemented")
-    }
-    func txs(mode: AddressingMode) {
-        assert(false, "Not implemented")
-    }
     func pha(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
