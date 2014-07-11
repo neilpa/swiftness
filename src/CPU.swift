@@ -262,6 +262,7 @@ extension CPU {
     }
 
     // Arithmetic operations
+    // TODO adc and sbc are identical except for addWithOverflow/subtractWithOverflow
     func adc(mode: AddressingMode) {
         let val = mode.load(self)
 
@@ -316,16 +317,23 @@ extension CPU {
         setNZ(res)
         a = res
     }
-    
+
     // Comparison operations
+    func compare(mode: AddressingMode, _ reg: Register) {
+        let val = mode.load(self)
+        setFlag(reg >= val, carryMask)
+
+        let (res, _) = Byte.subtractWithOverflow(reg, val)
+        setNZ(res)
+    }
     func cmp(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        compare(mode, a)
     }
     func cpx(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        compare(mode, x)
     }
     func cpy(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        compare(mode, y)
     }
 
     // Increment operations

@@ -12,11 +12,8 @@ import Foundation
 // -------------------------------
 // $0600    a9 01     LDA #$ff
 // $0602    8d 00 02  STA $0200
-// $0605    00        BRK
 
-var mem = RAM(prog: [ 0xa9, 0xff, 0x8d, 0x00, 0x02, 0x00 ])
-println(mem.data[0..<10])
-
+var mem = RAM(prog: [ 0xa9, 0xff, 0x8d, 0x00, 0x02 ])
 var cpu = CPU(memory: mem)
 cpu.run()
 
@@ -51,3 +48,16 @@ println(cpu.a)
 println(cpu.getFlag(carryMask))
 println(cpu.getFlag(overflowMask))
 
+// Address  Hexdump   Dissassembly
+// -------------------------------
+// $0600    a2 fe     LDX #$fe
+// $0602    e0 ff     CPX #$ff
+
+mem = RAM(prog: [ 0xa2, 0xfe, 0xe0, 0xff])
+cpu = CPU(memory: mem)
+cpu.run()
+
+println(cpu.x)
+println(cpu.getFlag(carryMask))
+println(cpu.getFlag(zeroMask))
+println(cpu.getFlag(negativeMask))
