@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D839E2EC196E903E00DCEE8E /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2EB196E903E00DCEE8E /* Address.swift */; };
 		D839E2EE196E904500DCEE8E /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2ED196E904500DCEE8E /* Register.swift */; };
+		D8498089196FDDF1002C2E64 /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8498088196FDDF1002C2E64 /* Slot.swift */; };
 		D89367B5196D2B620057FF5A /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B4196D2B620057FF5A /* Instruction.swift */; };
 		D89367B7196D2C1D0057FF5A /* AddressingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B6196D2C1D0057FF5A /* AddressingMode.swift */; };
 		D89367B9196E5F0A0057FF5A /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B8196E5F0A0057FF5A /* Memory.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		D839E2EB196E903E00DCEE8E /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		D839E2ED196E904500DCEE8E /* Register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		D8498088196FDDF1002C2E64 /* Slot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Slot.swift; sourceTree = "<group>"; };
 		D89367B4196D2B620057FF5A /* Instruction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		D89367B6196D2C1D0057FF5A /* AddressingMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressingMode.swift; sourceTree = "<group>"; };
 		D89367B8196E5F0A0057FF5A /* Memory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				D89367B8196E5F0A0057FF5A /* Memory.swift */,
 				D89367BA196E5F300057FF5A /* RAM.swift */,
 				D839E2ED196E904500DCEE8E /* Register.swift */,
+				D8498088196FDDF1002C2E64 /* Slot.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89367BB196E5F300057FF5A /* RAM.swift in Sources */,
+				D8498089196FDDF1002C2E64 /* Slot.swift in Sources */,
 				D89367B7196D2C1D0057FF5A /* AddressingMode.swift in Sources */,
 				D89367B5196D2B620057FF5A /* Instruction.swift in Sources */,
 				D8E8826C196D2A7900953007 /* CPU.swift in Sources */,

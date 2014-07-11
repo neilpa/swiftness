@@ -23,93 +23,56 @@ enum AddressingMode {
 
     func resolve (cpu: CPU) -> Slot {
         switch self {
-        case .Immediate: return ImmediateSlot(cpu: cpu)
-        case .Accumulator: return AccumulatorSlot(cpu: cpu)
+
+        case .Immediate:
+            return ImmediateSlot(cpu: cpu)
+
+        case .Accumulator:
+            return AccumulatorSlot(cpu: cpu)
 
         case .Absolute:
             return MemorySlot(addr: cpu.fetch(), mem: cpu.mem)
+            
+        case .AbsoluteX:
+            let offset = Address(cpu.x)
+            return MemorySlot(addr: cpu.fetch() + offset, mem: cpu.mem)
 
-        // TODO Implement the different memory slots
-        // case .ZeroPage:
-        // case .ZeroPageX:
-        // case .ZeroPageY:
-        // case .Relative:
-        // case .Absolute:
-        // case .AbsoluteX:
-        // case .AbsoluteY:
-        // case .Indirect:
-        // case .IndexedIndirectX:
-        // case .IndirectIndexedY:
+        case .AbsoluteY:
+            let offset = Address(cpu.y)
+            return MemorySlot(addr: cpu.fetch() + offset, mem: cpu.mem)
 
-        // TODO Should this even exist?
-        default: return NilSlot()
+        case .ZeroPage:
+            let addr: Byte = cpu.fetch()
+            return MemorySlot(addr: Address(addr), mem: cpu.mem)
+
+        case .ZeroPageX:
+            let (addr, _) = Byte.addWithOverflow(cpu.fetch(), cpu.x)
+            return MemorySlot(addr: Address(addr), mem: cpu.mem)
+
+        case .ZeroPageY:
+            // TODO Double check that this should wrap
+            let (addr, _) = Byte.addWithOverflow(cpu.fetch(), cpu.y)
+            return MemorySlot(addr: Address(addr), mem: cpu.mem)
+        
+        case .Indirect:
+            let operand: Address = cpu.fetch()
+            return MemorySlot(addr: cpu.mem[operand], mem: cpu.mem)
+
+        case .IndexedIndirectX:
+            let (offset, _) = Byte.addWithOverflow(cpu.fetch(), cpu.x)
+            let addr: Address = cpu.mem[Address(offset)]
+            return MemorySlot(addr: addr, mem: cpu.mem)
+
+        case .IndirectIndexedY:
+            let operand: Byte = cpu.fetch()
+            let base: Address = cpu.mem[Address(operand)]
+            let addr: Address = base + Address(cpu.y)
+            return MemorySlot(addr: addr, mem: cpu.mem)
+
+        // TODO Should this even exist, what about Relative?
+        default:
+            return NilSlot()
         }
     }
 }
 
-// e.g mail slot since we're talking about addresses
-protocol Slot {
-    func load() -> Byte
-    func store(val: Byte)
-}
-
-class NilSlot : Slot {
-    func load() -> Byte {
-        assert(false, "Invalid slot")
-        return 0
-    }
-    
-    func store(val: Byte) {
-        assert(false, "Invalid slot")
-    }
-}
-
-class ImmediateSlot : Slot {
-    let cpu: CPU
-    init(cpu: CPU) {
-        self.cpu = cpu
-    }
-
-    // TODO Should this be resolved immediately and cached?
-    func load() -> Byte {
-        return cpu.fetch()
-    }
-    
-    func store(val: Byte) {
-        assert(false, "Immediates are read only")
-    }
-}
-
-class AccumulatorSlot : Slot {
-    let cpu: CPU
-
-    init(cpu: CPU) {
-        self.cpu = cpu
-    }
-
-    func load() -> Byte {
-        return self.cpu.a
-    }
-    
-    func store(val: Byte) {
-        self.cpu.a = val
-    }
-}
-
-class MemorySlot : Slot {
-    let address: Address
-    var memory: Memory
-
-    init(addr: Address, mem: Memory) {
-        address = addr
-        memory = mem
-    }
-
-    func load() -> Byte {
-        return memory[address]
-    }
-    
-    func store(val: Byte) {
-        memory[address] = val
-    }
-}
