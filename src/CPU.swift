@@ -94,18 +94,68 @@ class CPU {
 
             switch instruction {
 
+            case .ADC: adc(mode)
+            case .AND: and(mode)
+            case .ASL: asl(mode)
+            case .BCC: bcc(mode)
+            case .BCS: bcs(mode)
+            case .BEQ: beq(mode)
+            case .BIT: bit(mode)
+            case .BMI: bmi(mode)
+            case .BNE: bne(mode)
+            case .BPL: bpl(mode)
+            case .BVC: bvc(mode)
+            case .BVS: bvs(mode)
+            case .CLC: clc(mode)
+            case .CLD: cld(mode)
+            case .CLI: cli(mode)
+            case .CLV: clv(mode)
+            case .CMP: cmp(mode)
+            case .CPX: cpx(mode)
+            case .CPY: cpy(mode)
+            case .DEC: dec(mode)
+            case .DEX: dex(mode)
+            case .DEY: dey(mode)
+            case .EOR: eor(mode)
+            case .INC: inc(mode)
+            case .INX: inx(mode)
+            case .INY: iny(mode)
+            case .JMP: jmp(mode)
+            case .JSR: jsr(mode)
             case .LDA: lda(mode)
+            case .LDX: ldx(mode)
+            case .LDY: ldy(mode)
+            case .LSR: lsr(mode)
+            case .NOP: nop(mode)
+            case .ORA: ora(mode)
+            case .PHA: pha(mode)
+            case .PHP: php(mode)
+            case .PLA: pla(mode)
+            case .PLP: plp(mode)
+            case .ROL: rol(mode)
+            case .ROR: ror(mode)
+            case .RTI: rti(mode)
+            case .RTS: rts(mode)
+            case .SBC: sbc(mode)
+            case .SEC: sec(mode)
+            case .SED: sed(mode)
+            case .SEI: sei(mode)
             case .STA: sta(mode)
-
-            // Do nothing
-            case .NOP: break
+            case .STX: stx(mode)
+            case .STY: sty(mode)
+            case .TAX: tax(mode)
+            case .TAY: tay(mode)
+            case .TSX: tsx(mode)
+            case .TXA: txa(mode)
+            case .TXS: txs(mode)
+            case .TYA: tya(mode)
 
             // TODO For now use BRK to halt execution
             case .BRK: return
 
             // Unrecognized opcode
             default: assert(false)
-                
+
             }
         }
     }
