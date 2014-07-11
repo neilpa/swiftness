@@ -355,6 +355,8 @@ extension CPU {
     }
 
     // Shift operations
+    // TODO addressing mode delegation breaks down here. Need to capture the
+    // original address for the load/store combo to work here
     func asl(mode: AddressingMode) {
         assert(false, "Not implemented")
     }
@@ -409,25 +411,25 @@ extension CPU {
 
     // Status flag operations
     func clc(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(false, carryMask)
     }
     func cld(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(false, decimalMask)
     }
     func cli(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(false, irqMask)
     }
     func clv(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(false, overflowMask)
     }
     func sec(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(true, carryMask)
     }
     func sed(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(true, decimalMask)
     }
     func sei(mode: AddressingMode) {
-        assert(false, "Not implemented")
+        setFlag(true, irqMask)
     }
 
     // System operations
