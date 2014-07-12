@@ -369,9 +369,17 @@ extension CPU {
 
     // Jump operations
     func jmp(mode: AddressingMode) {
-        // TODO Replicate page boundary bug for indirect jumps
-        let slot: MemorySlot = mode.resolve(self) as MemorySlot
-        pc = slot.address
+        var addr: Address = fetch()
+        if (mode == AddressingMode.Indirect) {
+            // Replicate the page boundary bug for indirect jumps
+            let lsb: Byte = mem[addr]
+            var msb: Byte = mem[addr + 1]
+            if addr & 0xff == 0xff {
+                msb = mem[addr & 0xff00]
+            }
+            addr = Address(low: lsb, high: msb)
+        }
+        pc = addr
     }
 
     // Call operations
