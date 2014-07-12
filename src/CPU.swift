@@ -92,6 +92,11 @@ class CPU {
     func pop() -> Byte {
         return mem[stackOffset + Address(++sp)]
     }
+    func popFlags() {
+        // Ensures the BRK and expansion flags are correct regardless of the
+        // value that we pop off the stack
+        flags = pop() & ~brkMask | defaultFlags
+    }
 
     // Fetch opcode or arguments at PC and increment
     func fetch() -> Byte {
@@ -234,7 +239,7 @@ extension CPU {
         push(flags | brkMask)
     }
     func plp(mode: AddressingMode) {
-        flags = pop() & ~brkMask | defaultFlags
+        popFlags()
     }
 
     // Logical operations
@@ -457,7 +462,7 @@ extension CPU {
         setFlag(true, irqMask)
     }
     func rti(mode: AddressingMode) {
-        flags = pop()
+        popFlags()
         pc = Address(low: pop(), high: pop())
     }
 
