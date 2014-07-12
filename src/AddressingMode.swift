@@ -78,13 +78,11 @@ enum AddressingMode {
             return MemorySlot(addr: cpu.mem[operand], mem: cpu.mem)
 
         case .IndexedIndirectX:
-            let (offset, _) = Byte.addWithOverflow(cpu.fetch(), cpu.x)
-            let addr: Address = cpu.mem[Address(offset)]
+            let addr: Address = loadZeroPage(cpu.fetch() +! cpu.x, cpu)
             return MemorySlot(addr: addr, mem: cpu.mem)
 
         case .IndirectIndexedY:
-            let operand: Byte = cpu.fetch()
-            let base: Address = cpu.mem[Address(operand)]
+            let base: Address = loadZeroPage(cpu.fetch(), cpu)
             let addr: Address = base + Address(cpu.y)
             return MemorySlot(addr: addr, mem: cpu.mem)
 
@@ -93,5 +91,13 @@ enum AddressingMode {
             return NilSlot()
         }
     }
+    
+    // Ensures that the indirect with index modes always load from the
+    // zero page. E.g. when loading a word with low byte offset of $ff
+    // this wraps to load the high byte from $00 rather than $100
+    func loadZeroPage(val: Byte, _ cpu: CPU) -> Address {
+        let lsb: Byte = cpu.mem[Address(val)]
+        let msb: Byte = cpu.mem[Address(val +! 1)]
+        return Address(low: lsb, high: msb)
+    }
 }
-
