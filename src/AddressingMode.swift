@@ -65,13 +65,10 @@ enum AddressingMode {
             return MemorySlot(addr: Address(addr), mem: cpu.mem)
 
         case .ZeroPageX:
-            let (addr, _) = Byte.addWithOverflow(cpu.fetch(), cpu.x)
-            return MemorySlot(addr: Address(addr), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetch() +! cpu.x), mem: cpu.mem)
 
         case .ZeroPageY:
-            // TODO Double check that this should wrap
-            let (addr, _) = Byte.addWithOverflow(cpu.fetch(), cpu.y)
-            return MemorySlot(addr: Address(addr), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetch() +! cpu.y), mem: cpu.mem)
         
         case .Indirect:
             let operand: Address = cpu.fetch()
@@ -83,8 +80,7 @@ enum AddressingMode {
 
         case .IndirectIndexedY:
             let base: Address = loadZeroPage(cpu.fetch(), cpu)
-            let (addr, _) = Address.addWithOverflow(base, Address(cpu.y))
-            return MemorySlot(addr: addr, mem: cpu.mem)
+            return MemorySlot(addr: base +! Address(cpu.y), mem: cpu.mem)
             
         // TODO Should this even exist, what about Relative?
         default:
