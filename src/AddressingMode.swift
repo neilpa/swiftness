@@ -83,9 +83,9 @@ enum AddressingMode {
 
         case .IndirectIndexedY:
             let base: Address = loadZeroPage(cpu.fetch(), cpu)
-            let addr: Address = base + Address(cpu.y)
+            let (addr, _) = Address.addWithOverflow(base, Address(cpu.y))
             return MemorySlot(addr: addr, mem: cpu.mem)
-
+            
         // TODO Should this even exist, what about Relative?
         default:
             return NilSlot()
