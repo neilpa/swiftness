@@ -187,11 +187,11 @@ let instructions: [Instr] = [
     Instr( 0x80, .NOP, .Immediate ), // Undocumented
     Instr( 0x81, .STA, .IndexedIndirectX ),
     Instr( 0x82, .XXX, .Implicit ),
-    Instr( 0x83, .XXX, .Implicit ),
+    Instr( 0x83, .SAX, .IndexedIndirectX ), // Undocumented
     Instr( 0x84, .STY, .ZeroPage ),
     Instr( 0x85, .STA, .ZeroPage ),
     Instr( 0x86, .STX, .ZeroPage ),
-    Instr( 0x87, .XXX, .Implicit ),
+    Instr( 0x87, .SAX, .ZeroPage ), // Undocumented
     Instr( 0x88, .DEY, .Implicit ),
     Instr( 0x89, .XXX, .Implicit ),
     Instr( 0x8A, .TXA, .Implicit ),
@@ -199,7 +199,7 @@ let instructions: [Instr] = [
     Instr( 0x8C, .STY, .Absolute ),
     Instr( 0x8D, .STA, .Absolute ),
     Instr( 0x8E, .STX, .Absolute ),
-    Instr( 0x8F, .XXX, .Implicit ),
+    Instr( 0x8F, .SAX, .Absolute ), // Undocumented
     Instr( 0x90, .BCC, .Relative ),
     Instr( 0x91, .STA, .IndirectIndexedY ),
     Instr( 0x92, .XXX, .Implicit ),
@@ -207,7 +207,7 @@ let instructions: [Instr] = [
     Instr( 0x94, .STY, .ZeroPageX ),
     Instr( 0x95, .STA, .ZeroPageX ),
     Instr( 0x96, .STX, .ZeroPageY ),
-    Instr( 0x97, .XXX, .Implicit ),
+    Instr( 0x97, .SAX, .ZeroPageY ), // Undocumented
     Instr( 0x98, .TYA, .Implicit ),
     Instr( 0x99, .STA, .AbsoluteY ),
     Instr( 0x9A, .TXS, .Implicit ),

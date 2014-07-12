@@ -180,6 +180,7 @@ class CPU {
             
         // Undocumented instructions
         case .LAX: lax(mode)
+        case .SAX: sax(mode)
             
         default: assert(false, "Unrecognized opcode")
         }
@@ -483,12 +484,13 @@ extension CPU {
         a = setNZ(mode.resolve(self).load())
         x = a
     }
-    // TODO Taking the mode for these is going to mess up state
     func sax(mode: AddressingMode) {
-        sta(mode);
-        stx(mode);
-        push(a & x);
+        // TODO Conflicting reports as to whether this affects N&Z status registers
+        // http://www.ataripreservation.org/websites/freddy.offenga/illopc31.txt
+        // http://wiki.nesdev.com/w/index.php/Programming_with_unofficial_opcodes
+        mode.resolve(self).store(a & x)
     }
+    // TODO Taking the mode for these is going to mess up state
     func dcp(mode: AddressingMode) {
         dec(mode);
         cmp(mode);
