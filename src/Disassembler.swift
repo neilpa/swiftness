@@ -60,7 +60,7 @@ let instructions: [Instr] = [
     Instr( 0x01, .ORA, .IndexedIndirectX ),
     Instr( 0x02, .XXX, .Implicit ),
     Instr( 0x03, .XXX, .Implicit ),
-    Instr( 0x04, .XXX, .Implicit ),
+    Instr( 0x04, .NOP, .ZeroPage ), // Undocumented
     Instr( 0x05, .ORA, .ZeroPage ),
     Instr( 0x06, .ASL, .ZeroPage ),
     Instr( 0x07, .XXX, .Implicit ),
@@ -68,7 +68,7 @@ let instructions: [Instr] = [
     Instr( 0x09, .ORA, .Immediate ),
     Instr( 0x0A, .ASL, .Accumulator ),
     Instr( 0x0B, .XXX, .Implicit ),
-    Instr( 0x0C, .XXX, .Implicit ),
+    Instr( 0x0C, .NOP, .Absolute ),  // Undocumented
     Instr( 0x0D, .ORA, .Absolute ),
     Instr( 0x0E, .ASL, .Absolute ),
     Instr( 0x0F, .XXX, .Implicit ),
@@ -76,15 +76,15 @@ let instructions: [Instr] = [
     Instr( 0x11, .ORA, .IndirectIndexedY ),
     Instr( 0x12, .XXX, .Implicit ),
     Instr( 0x13, .XXX, .Implicit ),
-    Instr( 0x14, .XXX, .Implicit ),
+    Instr( 0x14, .NOP, .ZeroPageX ), // Undocumented
     Instr( 0x15, .ORA, .ZeroPageX ),
     Instr( 0x16, .ASL, .ZeroPageX ),
     Instr( 0x17, .XXX, .Implicit ),
     Instr( 0x18, .CLC, .Implicit ),
     Instr( 0x19, .ORA, .AbsoluteY ),
-    Instr( 0x1A, .XXX, .Implicit ),
+    Instr( 0x1A, .NOP, .Implicit ), // Undocumented
     Instr( 0x1B, .XXX, .Implicit ),
-    Instr( 0x1C, .XXX, .Implicit ),
+    Instr( 0x1C, .NOP, .AbsoluteX ), // Undocumented
     Instr( 0x1D, .ORA, .AbsoluteX ),
     Instr( 0x1E, .ASL, .AbsoluteX ),
     Instr( 0x1F, .XXX, .Implicit ),
@@ -108,15 +108,15 @@ let instructions: [Instr] = [
     Instr( 0x31, .AND, .IndirectIndexedY ),
     Instr( 0x32, .XXX, .Implicit ),
     Instr( 0x33, .XXX, .Implicit ),
-    Instr( 0x34, .XXX, .Implicit ),
+    Instr( 0x34, .NOP, .ZeroPageX ), // Undocumented
     Instr( 0x35, .AND, .ZeroPageX ),
     Instr( 0x36, .ROL, .ZeroPageX ),
     Instr( 0x37, .XXX, .Implicit ),
     Instr( 0x38, .SEC, .Implicit ),
     Instr( 0x39, .AND, .AbsoluteY ),
-    Instr( 0x3A, .XXX, .Implicit ),
+    Instr( 0x3A, .NOP, .Implicit ), // Undocumented
     Instr( 0x3B, .XXX, .Implicit ),
-    Instr( 0x3C, .XXX, .Implicit ),
+    Instr( 0x3C, .NOP, .AbsoluteX ), // Undocumented
     Instr( 0x3D, .AND, .AbsoluteX ),
     Instr( 0x3E, .ROL, .AbsoluteX ),
     Instr( 0x3F, .XXX, .Implicit ),
@@ -124,7 +124,7 @@ let instructions: [Instr] = [
     Instr( 0x41, .EOR, .IndexedIndirectX ),
     Instr( 0x42, .XXX, .Implicit ),
     Instr( 0x43, .XXX, .Implicit ),
-    Instr( 0x44, .XXX, .Implicit ),
+    Instr( 0x44, .NOP, .ZeroPage ), // Undocumented
     Instr( 0x45, .EOR, .ZeroPage ),
     Instr( 0x46, .LSR, .ZeroPage ),
     Instr( 0x47, .XXX, .Implicit ),
@@ -140,15 +140,15 @@ let instructions: [Instr] = [
     Instr( 0x51, .EOR, .IndirectIndexedY ),
     Instr( 0x52, .XXX, .Implicit ),
     Instr( 0x53, .XXX, .Implicit ),
-    Instr( 0x54, .XXX, .Implicit ),
+    Instr( 0x54, .NOP, .ZeroPageX ), // Undocumented
     Instr( 0x55, .EOR, .ZeroPageX ),
     Instr( 0x56, .LSR, .ZeroPageX ),
     Instr( 0x57, .XXX, .Implicit ),
     Instr( 0x58, .CLI, .Implicit ),
     Instr( 0x59, .EOR, .AbsoluteY ),
-    Instr( 0x5A, .XXX, .Implicit ),
+    Instr( 0x5A, .NOP, .Implicit ), // Undocumented
     Instr( 0x5B, .XXX, .Implicit ),
-    Instr( 0x5C, .XXX, .Implicit ),
+    Instr( 0x5C, .NOP, .AbsoluteX ), // Undocumented
     Instr( 0x5D, .EOR, .AbsoluteX ),
     Instr( 0x5E, .LSR, .AbsoluteX ),
     Instr( 0x5F, .XXX, .Implicit ),
@@ -156,7 +156,7 @@ let instructions: [Instr] = [
     Instr( 0x61, .ADC, .IndexedIndirectX ),
     Instr( 0x62, .XXX, .Implicit ),
     Instr( 0x63, .XXX, .Implicit ),
-    Instr( 0x64, .XXX, .Implicit ),
+    Instr( 0x64, .NOP, .ZeroPage ), // Undocumented
     Instr( 0x65, .ADC, .ZeroPage ),
     Instr( 0x66, .ROR, .ZeroPage ),
     Instr( 0x67, .XXX, .Implicit ),
@@ -172,19 +172,19 @@ let instructions: [Instr] = [
     Instr( 0x71, .ADC, .IndirectIndexedY ),
     Instr( 0x72, .XXX, .Implicit ),
     Instr( 0x73, .XXX, .Implicit ),
-    Instr( 0x74, .XXX, .Implicit ),
+    Instr( 0x74, .NOP, .ZeroPageX ), // Undocumented
     Instr( 0x75, .ADC, .ZeroPageX ),
     Instr( 0x76, .ROR, .ZeroPageX ),
     Instr( 0x77, .XXX, .Implicit ),
     Instr( 0x78, .SEI, .Implicit ),
     Instr( 0x79, .ADC, .AbsoluteY ),
-    Instr( 0x7A, .XXX, .Implicit ),
+    Instr( 0x7A, .NOP, .Implicit ), // Undocumented
     Instr( 0x7B, .XXX, .Implicit ),
-    Instr( 0x7C, .XXX, .Implicit ),
+    Instr( 0x7C, .NOP, .AbsoluteX ), // Undocumented
     Instr( 0x7D, .ADC, .AbsoluteX ),
     Instr( 0x7E, .ROR, .AbsoluteX ),
     Instr( 0x7F, .XXX, .Implicit ),
-    Instr( 0x80, .XXX, .Implicit ),
+    Instr( 0x80, .NOP, .Immediate ), // Undocumented
     Instr( 0x81, .STA, .IndexedIndirectX ),
     Instr( 0x82, .XXX, .Implicit ),
     Instr( 0x83, .XXX, .Implicit ),
@@ -268,15 +268,15 @@ let instructions: [Instr] = [
     Instr( 0xD1, .CMP, .IndirectIndexedY ),
     Instr( 0xD2, .XXX, .Implicit ),
     Instr( 0xD3, .XXX, .Implicit ),
-    Instr( 0xD4, .XXX, .Implicit ),
+    Instr( 0xD4, .NOP, .ZeroPageX ), // Undocumented
     Instr( 0xD5, .CMP, .ZeroPageX ),
     Instr( 0xD6, .DEC, .ZeroPageX ),
     Instr( 0xD7, .XXX, .Implicit ),
     Instr( 0xD8, .CLD, .Implicit ),
     Instr( 0xD9, .CMP, .AbsoluteY ),
-    Instr( 0xDA, .XXX, .Implicit ),
+    Instr( 0xDA, .NOP, .Implicit ), // Undocumented
     Instr( 0xDB, .XXX, .Implicit ),
-    Instr( 0xDC, .XXX, .Implicit ),
+    Instr( 0xDC, .NOP, .AbsoluteX ), // Undocumented
     Instr( 0xDD, .CMP, .AbsoluteX ),
     Instr( 0xDE, .DEC, .AbsoluteX ),
     Instr( 0xDF, .XXX, .Implicit ),
@@ -300,15 +300,15 @@ let instructions: [Instr] = [
     Instr( 0xF1, .SBC, .IndirectIndexedY ),
     Instr( 0xF2, .XXX, .Implicit ),
     Instr( 0xF3, .XXX, .Implicit ),
-    Instr( 0xF4, .XXX, .Implicit ),
+    Instr( 0xF4, .NOP, .ZeroPageX ), // Undocumented
     Instr( 0xF5, .SBC, .ZeroPageX ),
     Instr( 0xF6, .INC, .ZeroPageX ),
     Instr( 0xF7, .XXX, .Implicit ),
     Instr( 0xF8, .SED, .Implicit ),
     Instr( 0xF9, .SBC, .AbsoluteY ),
-    Instr( 0xFA, .XXX, .Implicit ),
+    Instr( 0xFA, .NOP, .Implicit ), // Undocumented
     Instr( 0xFB, .XXX, .Implicit ),
-    Instr( 0xFC, .XXX, .Implicit ),
+    Instr( 0xFC, .NOP, .AbsoluteX ), // Undocumented
     Instr( 0xFD, .SBC, .AbsoluteX ),
     Instr( 0xFE, .INC, .AbsoluteX ),
     Instr( 0xFF, .XXX, .Implicit ),

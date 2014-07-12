@@ -468,5 +468,9 @@ extension CPU {
 
     // No operation
     func nop(mode: AddressingMode) {
+        // Undocumented NOPs have operands that need to be eaten
+        if (mode != .Implicit) {
+            mode.resolve(self).load()
+        }
     }
 }
