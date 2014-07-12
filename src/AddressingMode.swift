@@ -20,6 +20,25 @@ enum AddressingMode {
     case Indirect
     case IndexedIndirectX
     case IndirectIndexedY
+    
+    // Number of bytes for the operands
+    var bytes: Int {
+        switch self {
+        case Implicit: return 0
+        case Accumulator: return 0
+        case Immediate: return 1
+        case ZeroPage: return 1
+        case ZeroPageX: return 1
+        case ZeroPageY: return 1
+        case Relative: return 1
+        case Absolute: return 2
+        case AbsoluteX: return 2
+        case AbsoluteY: return 2
+        case Indirect: return 2
+        case IndexedIndirectX: return 1
+        case IndirectIndexedY: return 1
+        }
+    }
 
     func resolve (cpu: CPU) -> Slot {
         switch self {

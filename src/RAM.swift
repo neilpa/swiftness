@@ -11,10 +11,14 @@
 class RAM : Memory {
     var data: [Byte] = [Byte](count:66000, repeatedValue:0)
 
-    init (prog: [Byte]) {
+    convenience init (prog: [Byte]) {
+        self.init(prog: prog, offset: 0)
+    }
+    
+    init (prog: [Byte], offset: Int) {
         // TODO Is there a better way
         for (index, byte) in enumerate(prog) {
-            data[index] = byte
+            data[index + offset] = byte
         }
     }
     

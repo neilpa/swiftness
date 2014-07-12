@@ -8,3 +8,10 @@
 
 typealias Byte = UInt8
 typealias Register = Byte
+
+// Hex printing helper
+extension Byte {
+    var hex: String {
+        return String(format: "%02X", self)
+    }
+}

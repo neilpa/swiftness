@@ -11,5 +11,6 @@ protocol Memory {
     subscript (address: Address) -> Byte { get set }
     
     // Convenience for load/store a word
+    // TODO Remove since this causes too much ambiguity with above
     subscript (address: Address) -> UInt16 { get set }
 }

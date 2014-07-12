@@ -10,6 +10,13 @@
 // typealias Word = UInt16
 typealias Address = UInt16
 
+// Hex printing helper
+extension Address {
+    var hex: String {
+        return String(format: "%04X", self)
+    }
+}
+
 // Extract low and high bytes
 extension Address {
     init (low: Byte, high: Byte) {

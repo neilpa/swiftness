@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Neil Pankey. All rights reserved.
 //
 
+import Foundation
+
 let negativeMask:   Byte = 1 << 7
 let overflowMask:   Byte = 1 << 6
 let brkMask:        Byte = 1 << 4
@@ -13,6 +15,9 @@ let decimalMask:    Byte = 1 << 3
 let irqMask:        Byte = 1 << 2
 let zeroMask:       Byte = 1 << 1
 let carryMask:      Byte = 1 << 0
+
+// Bit 5 is reserved and always set in the status flags
+let defaultFlags: Byte = 1 << 5
 
 let stackOffset: Address = 0x0100
 
@@ -32,16 +37,20 @@ class CPU {
     var sp: Register = 0xff
 
     // Processor status flags register
-    var flags: Register = 0
+    var flags: Register = defaultFlags
 
     // Program counter register
     var pc: Address = 0 // TODO resetVector
 
     // Memory
     var mem: Memory
+    
+    // Disassembler for decoding/tracing instructions
+    var disassembler: Disassembler
 
     init(memory: Memory) {
         mem = memory
+        disassembler = Disassembler(mem: memory)
     }
 
     // Register helpers
@@ -87,14 +96,18 @@ class CPU {
 
     // Decode the operation
     func decode(opcode: Byte) -> (Instruction, AddressingMode) {
-        return instructionSet[Int(opcode)]
+        let instr = disassembler.decode(opcode)
+        return (instr.type, instr.mode)
     }
 
     // Step a single fetch-decode-execute cycle
     func step() {
+        disassembler.trace(pc)
+        println(String(format:"  A:%02X X:%02X Y:%02X P:%02X SP:%02X", a, x, y, flags, sp))
+
         let code: Byte = fetch()
         let (instruction, mode) = decode(code)
-
+        
         switch instruction {
         case .ADC: adc(mode)
         case .AND: and(mode)
