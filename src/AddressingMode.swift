@@ -54,11 +54,11 @@ enum AddressingMode {
             
         case .AbsoluteX:
             let offset = Address(cpu.x)
-            return MemorySlot(addr: cpu.fetch() + offset, mem: cpu.mem)
+            return MemorySlot(addr: cpu.fetch() +! offset, mem: cpu.mem)
 
         case .AbsoluteY:
             let offset = Address(cpu.y)
-            return MemorySlot(addr: cpu.fetch() + offset, mem: cpu.mem)
+            return MemorySlot(addr: cpu.fetch() +! offset, mem: cpu.mem)
 
         case .ZeroPage:
             let addr: Byte = cpu.fetch()
