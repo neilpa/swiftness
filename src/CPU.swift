@@ -359,7 +359,7 @@ extension CPU {
         let val = slot.load()
         var res = val << 1
         if (getFlag(carryMask)) {
-            res &= 0x01
+            res |= 0x01
         }
         setFlag(val & 0x80 != 0, carryMask)
         slot.store(setNZ(res))
@@ -369,7 +369,7 @@ extension CPU {
         let val = slot.load()
         var res = val >> 1
         if (getFlag(carryMask)) {
-            res &= 0x80
+            res |= 0x80
         }
         setFlag(val & 0x01 != 0, carryMask)
         slot.store(setNZ(res))
