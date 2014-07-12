@@ -425,7 +425,7 @@ extension CPU {
         branch(getFlag(negativeMask))
     }
     func bne(mode: AddressingMode) {
-        branch(getFlag(zeroMask))
+        branch(!getFlag(zeroMask))
     }
     func bpl(mode: AddressingMode) {
         branch(!getFlag(negativeMask))
