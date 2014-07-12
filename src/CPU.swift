@@ -224,7 +224,7 @@ extension CPU {
         push(flags)
     }
     func pla(mode: AddressingMode) {
-        a = pop()
+        a = setNZ(pop())
     }
     func plp(mode: AddressingMode) {
         flags = pop()
