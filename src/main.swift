@@ -29,4 +29,4 @@ cpu.pc = 0xc000
 cpu.sp = 0xfd
 cpu.setFlag(true, irqMask)
 
-run(300)
+run(1000)

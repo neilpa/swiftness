@@ -255,14 +255,11 @@ extension CPU {
     }
 
     // Arithmetic operations
-    // TODO adc and sbc are identical except for addWithOverflow/subtractWithOverflow
-    func adc(mode: AddressingMode) {
-        let val = mode.resolve(self).load()
-
+    func addition(val: Byte) {
         // Let Swift figure out carry and overflow
         var (res, carry) = Byte.addWithOverflow(a, val)
         var (signed, overflow) = Int8.addWithOverflow(a.asSigned(), val.asSigned())
-
+        
         // Check if that final bit pushes us over the top
         if (getFlag(carryMask)) {
             if !carry {
@@ -271,42 +268,24 @@ extension CPU {
                 // Already, one more bit isn't going to change that
                 (res, _) = Byte.addWithOverflow(res, 1)
             }
-
+            
             if !overflow {
                 // Still need to check for signed overflow on the last bit
                 (_, overflow) = Int8.addWithOverflow(signed, 1)
             }
         }
-
+        
         setFlag(carry, carryMask)
         setFlag(overflow, overflowMask)
         a = setNZ(res)
     }
+    func adc(mode: AddressingMode) {
+        addition(mode.resolve(self).load())
+    }
+    // SBC can be implemented in terms of ADC
+    // http://forums.nesdev.com/viewtopic.php?p=19080
     func sbc(mode: AddressingMode) {
-        let val = mode.resolve(self).load()
-
-        // Let Swift figure out carry and overflow
-        var (res, carry) = Byte.subtractWithOverflow(a, val)
-        var (signed, overflow) = Int8.subtractWithOverflow(a.asSigned(), val.asSigned())
-
-        // Check if that final bit pushes us over the top
-        if (getFlag(carryMask)) {
-            if !carry {
-                (res, carry) = Byte.subtractWithOverflow(res, 1)
-            } else {
-                // Already, one more bit isn't going to change that
-                (res, _) = Byte.subtractWithOverflow(res, 1)
-            }
-
-            if !overflow {
-                // Still need to check for signed overflow on the last bit
-                (_, overflow) = Int8.subtractWithOverflow(signed, 1)
-            }
-        }
-
-        setFlag(carry, carryMask)
-        setFlag(overflow, overflowMask)
-        a = setNZ(res)
+        addition(mode.resolve(self).load() ^ 0xff)
     }
 
     // Comparison operations
