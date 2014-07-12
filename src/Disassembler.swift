@@ -291,7 +291,7 @@ let instructions: [Instr] = [
     Instr( 0xE8, .INX, .Implicit ),
     Instr( 0xE9, .SBC, .Immediate ),
     Instr( 0xEA, .NOP, .Implicit ),
-    Instr( 0xEB, .XXX, .Implicit ),
+    Instr( 0xEB, .SBC, .Immediate ), // Undocumented
     Instr( 0xEC, .CPX, .Absolute ),
     Instr( 0xED, .SBC, .Absolute ),
     Instr( 0xEE, .INC, .Absolute ),
