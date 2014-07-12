@@ -15,3 +15,10 @@ extension Byte {
         return String(format: "%02X", self)
     }
 }
+
+// Add with allowed overflow that is ignored
+operator infix +! {}
+@infix func +! (lhs: Byte, rhs: Byte) -> Byte {
+    let (sum, _) = Byte.addWithOverflow(lhs, rhs)
+    return sum
+}
