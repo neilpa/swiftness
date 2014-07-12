@@ -8,13 +8,18 @@
 
 import Foundation
 
+// Flags in the processor status register
 let negativeMask:   Byte = 1 << 7
 let overflowMask:   Byte = 1 << 6
-let brkMask:        Byte = 1 << 4
 let decimalMask:    Byte = 1 << 3
 let irqMask:        Byte = 1 << 2
 let zeroMask:       Byte = 1 << 1
 let carryMask:      Byte = 1 << 0
+
+// See http://wiki.nesdev.com/w/index.php/Status_flags
+// This isn't a real status flag. This bit is set on the value pushed to the
+// stack when executing a PHP or BRK instruction and not during NMI.
+let brkMask: Byte = 1 << 4
 
 // Bit 5 is reserved and always set in the status flags
 let defaultFlags: Byte = 1 << 5
@@ -62,6 +67,8 @@ class CPU {
 
     // Set or clear a bit in the status register
     func setFlag(isSet: Bool, _ mask: Byte) {
+        assert(mask != brkMask, "Invalid mask")
+
         if (isSet) {
             flags |= mask
         } else {
@@ -220,14 +227,14 @@ extension CPU {
     func pha(mode: AddressingMode) {
         push(a)
     }
-    func php(mode: AddressingMode) {
-        push(flags)
-    }
     func pla(mode: AddressingMode) {
         a = setNZ(pop())
     }
+    func php(mode: AddressingMode) {
+        push(flags | brkMask)
+    }
     func plp(mode: AddressingMode) {
-        flags = pop()
+        flags = pop() & ~brkMask | defaultFlags
     }
 
     // Logical operations
@@ -465,7 +472,7 @@ extension CPU {
         let ret = pc + 1
         push(ret.highByte)
         push(ret.lowByte)
-        push(flags)
+        push(flags | brkMask)
 
         pc = mem[irqVector]
         setFlag(true, irqMask)
