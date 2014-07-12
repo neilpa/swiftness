@@ -20,7 +20,7 @@ extension Address {
 // Extract low and high bytes
 extension Address {
     init (low: Byte, high: Byte) {
-        self = (Address(high) << 8) & Address(low)
+        self = Address(high) << 8 | Address(low)
     }
 
     var lowByte: Byte {
