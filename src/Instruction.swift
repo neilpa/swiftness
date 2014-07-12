@@ -66,7 +66,17 @@ enum Instruction {
     case TXA    // Transfer Index X to Accumulator
     case TXS    // Transfer Index X to Stack Pointer
     case TYA    // Transfer Index Y to Accumulator
-
+    
+    // Undocumented opcodes
+    case LAX
+    case SAX
+    case DCP
+    case ISB
+    case SLO
+    case RLA
+    case SRE
+    case RRA
+    
     // HACK Invalid instruction
     case XXX
 
@@ -128,6 +138,18 @@ enum Instruction {
         case TXA: return "TXA"
         case TXS: return "TXS"
         case TYA: return "TYA"
+        
+        // Undocumented instructions
+        case LAX: return "LAX"
+        case SAX: return "SAX"
+        case DCP: return "DCP"
+        case ISB: return "ISB"
+        case SLO: return "SLO"
+        case RLA: return "RLA"
+        case SRE: return "SRE"
+        case RRA: return "RRA"
+        
+        // Invalid operation
         case XXX: return "XXX"
         }
     }

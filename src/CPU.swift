@@ -177,6 +177,10 @@ class CPU {
         case .TXA: txa(mode)
         case .TXS: txs(mode)
         case .TYA: tya(mode)
+            
+        // Undocumented instructions
+        case .LAX: lax(mode)
+            
         default: assert(false, "Unrecognized opcode")
         }
     }
@@ -472,5 +476,41 @@ extension CPU {
         if (mode != .Implicit) {
             mode.resolve(self).load()
         }
+    }
+    
+    // Undocumented operations
+    func lax(mode: AddressingMode) {
+        a = setNZ(mode.resolve(self).load())
+        x = a
+    }
+    // TODO Taking the mode for these is going to mess up state
+    func sax(mode: AddressingMode) {
+        sta(mode);
+        stx(mode);
+        push(a & x);
+    }
+    func dcp(mode: AddressingMode) {
+        dec(mode);
+        cmp(mode);
+    }
+    func isb(mode: AddressingMode) {
+        inc(mode);
+        sbc(mode);
+    }
+    func slo(mode: AddressingMode) {
+        asl(mode);
+        ora(mode);
+    }
+    func rla(mode: AddressingMode) {
+        rol(mode);
+        and(mode);
+    }
+    func sre(mode: AddressingMode) {
+        lsr(mode);
+        eor(mode);
+    }
+    func rra(mode: AddressingMode) {
+        ror(mode);
+        adc(mode);
     }
 }

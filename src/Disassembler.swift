@@ -219,11 +219,11 @@ let instructions: [Instr] = [
     Instr( 0xA0, .LDY, .Immediate ),
     Instr( 0xA1, .LDA, .IndexedIndirectX ),
     Instr( 0xA2, .LDX, .Immediate ),
-    Instr( 0xA3, .XXX, .Implicit ),
+    Instr( 0xA3, .LAX, .IndexedIndirectX ), // Undocumented
     Instr( 0xA4, .LDY, .ZeroPage ),
     Instr( 0xA5, .LDA, .ZeroPage ),
     Instr( 0xA6, .LDX, .ZeroPage ),
-    Instr( 0xA7, .XXX, .Implicit ),
+    Instr( 0xA7, .LAX, .ZeroPage ), // Undocumented
     Instr( 0xA8, .TAY, .Implicit ),
     Instr( 0xA9, .LDA, .Immediate ),
     Instr( 0xAA, .TAX, .Implicit ),
@@ -231,15 +231,15 @@ let instructions: [Instr] = [
     Instr( 0xAC, .LDY, .Absolute ),
     Instr( 0xAD, .LDA, .Absolute ),
     Instr( 0xAE, .LDX, .Absolute ),
-    Instr( 0xAF, .XXX, .Implicit ),
+    Instr( 0xAF, .LAX, .Absolute ), // Undocumented
     Instr( 0xB0, .BCS, .Relative ),
     Instr( 0xB1, .LDA, .IndirectIndexedY ),
     Instr( 0xB2, .XXX, .Implicit ),
-    Instr( 0xB3, .XXX, .Implicit ),
+    Instr( 0xB3, .LAX, .IndirectIndexedY ), // Undocumented
     Instr( 0xB4, .LDY, .ZeroPageX ),
     Instr( 0xB5, .LDA, .ZeroPageX ),
     Instr( 0xB6, .LDX, .ZeroPageY ),
-    Instr( 0xB7, .XXX, .Implicit ),
+    Instr( 0xB7, .LAX, .ZeroPageY ), // Undocumented
     Instr( 0xB8, .CLV, .Implicit ),
     Instr( 0xB9, .LDA, .AbsoluteY ),
     Instr( 0xBA, .TSX, .Implicit ),
@@ -247,7 +247,7 @@ let instructions: [Instr] = [
     Instr( 0xBC, .LDY, .AbsoluteX ),
     Instr( 0xBD, .LDA, .AbsoluteX ),
     Instr( 0xBE, .LDX, .AbsoluteY ),
-    Instr( 0xBF, .XXX, .Implicit ),
+    Instr( 0xBF, .LAX, .AbsoluteY ), // Undocumented
     Instr( 0xC0, .CPY, .Immediate ),
     Instr( 0xC1, .CMP, .IndexedIndirectX ),
     Instr( 0xC2, .XXX, .Implicit ),
