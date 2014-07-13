@@ -99,11 +99,13 @@ class CPU {
     }
 
     // Fetch opcode or arguments at PC and increment
-    func fetch() -> Byte {
+    func fetchByte() -> Byte {
         return mem[pc++]
     }
-    func fetch() -> UInt16 {
-        return mem[pc+++]
+    func fetchWord() -> UInt16 {
+        let val = readWord(pc, mem)
+        pc += 2
+        return val
     }
 
     // Decode the operation
@@ -117,7 +119,7 @@ class CPU {
         disassembler.trace(pc)
         println(String(format:"  A:%02X X:%02X Y:%02X P:%02X SP:%02X", a, x, y, flags, sp))
 
-        let code: Byte = fetch()
+        let code: Byte = fetchByte()
         let (instruction, mode) = decode(code)
         
         switch instruction {
@@ -374,7 +376,7 @@ extension CPU {
 
     // Jump operations
     func jmp(mode: AddressingMode) {
-        var addr: Address = fetch()
+        var addr: Address = fetchWord()
         if (mode == AddressingMode.Indirect) {
             // Replicate the page boundary bug for indirect jumps
             let lsb: Byte = mem[addr]
@@ -389,7 +391,7 @@ extension CPU {
 
     // Call operations
     func jsr(mode: AddressingMode) {
-        let addr: Address = fetch()
+        let addr = fetchWord()
         let ret = pc - 1
         push(ret.highByte)
         push(ret.lowByte)
@@ -401,7 +403,7 @@ extension CPU {
 
     // Branch operations
     func branch(jump: Bool) {
-        let operand: Int8 = fetch().asSigned()
+        let operand = fetchByte().asSigned()
         if jump {
             let base = Int(pc)
             let offset = Int(operand)
@@ -463,7 +465,7 @@ extension CPU {
         push(ret.lowByte)
         push(flags | brkMask)
 
-        pc = mem[irqVector]
+        pc = readWord(irqVector, mem)
         setFlag(true, irqMask)
     }
     func rti(mode: AddressingMode) {
@@ -490,29 +492,36 @@ extension CPU {
         // http://wiki.nesdev.com/w/index.php/Programming_with_unofficial_opcodes
         mode.resolve(self).store(a & x)
     }
+
     // TODO Taking the mode for these is going to mess up state
     func dcp(mode: AddressingMode) {
-        dec(mode);
-        cmp(mode);
+        assert(false, "Not implemented")
+//        dec(mode);
+//        cmp(mode);
     }
     func isb(mode: AddressingMode) {
-        inc(mode);
-        sbc(mode);
+        assert(false, "Not implemented")
+//        inc(mode);
+//        sbc(mode);
     }
     func slo(mode: AddressingMode) {
-        asl(mode);
-        ora(mode);
+        assert(false, "Not implemented")
+//        asl(mode);
+//        ora(mode);
     }
     func rla(mode: AddressingMode) {
-        rol(mode);
-        and(mode);
+        assert(false, "Not implemented")
+//        rol(mode);
+//        and(mode);
     }
     func sre(mode: AddressingMode) {
-        lsr(mode);
-        eor(mode);
+        assert(false, "Not implemented")
+//        lsr(mode);
+//        eor(mode);
     }
     func rra(mode: AddressingMode) {
-        ror(mode);
-        adc(mode);
+        assert(false, "Not implemented")
+//        ror(mode);
+//        adc(mode);
     }
 }

@@ -50,36 +50,32 @@ enum AddressingMode {
             return AccumulatorSlot(cpu: cpu)
 
         case .Absolute:
-            return MemorySlot(addr: cpu.fetch(), mem: cpu.mem)
-            
+            return MemorySlot(addr: cpu.fetchWord(), mem: cpu.mem)
+
         case .AbsoluteX:
-            let offset = Address(cpu.x)
-            return MemorySlot(addr: cpu.fetch() +! offset, mem: cpu.mem)
+            return MemorySlot(addr: cpu.fetchWord() +! Address(cpu.x), mem: cpu.mem)
 
         case .AbsoluteY:
-            let offset = Address(cpu.y)
-            return MemorySlot(addr: cpu.fetch() +! offset, mem: cpu.mem)
+            return MemorySlot(addr: cpu.fetchWord() +! Address(cpu.y), mem: cpu.mem)
 
         case .ZeroPage:
-            let addr: Byte = cpu.fetch()
-            return MemorySlot(addr: Address(addr), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetchByte()), mem: cpu.mem)
 
         case .ZeroPageX:
-            return MemorySlot(addr: Address(cpu.fetch() +! cpu.x), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetchByte() +! cpu.x), mem: cpu.mem)
 
         case .ZeroPageY:
-            return MemorySlot(addr: Address(cpu.fetch() +! cpu.y), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetchByte() +! cpu.y), mem: cpu.mem)
         
         case .Indirect:
-            let operand: Address = cpu.fetch()
-            return MemorySlot(addr: cpu.mem[operand], mem: cpu.mem)
+            return MemorySlot(addr: readWord(cpu.fetchWord(), cpu.mem), mem: cpu.mem)
 
         case .IndexedIndirectX:
-            let addr: Address = loadZeroPage(cpu.fetch() +! cpu.x, cpu)
+            let addr: Address = loadZeroPage(cpu.fetchByte() +! cpu.x, cpu)
             return MemorySlot(addr: addr, mem: cpu.mem)
 
         case .IndirectIndexedY:
-            let base: Address = loadZeroPage(cpu.fetch(), cpu)
+            let base: Address = loadZeroPage(cpu.fetchByte(), cpu)
             return MemorySlot(addr: base +! Address(cpu.y), mem: cpu.mem)
             
         // TODO Should this even exist, what about Relative?

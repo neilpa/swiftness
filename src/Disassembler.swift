@@ -39,8 +39,8 @@ class Disassembler {
             default: break
         }
         
-        // Figure out the operand string
-        let operand = "TODO"
+        // TODO Figure out the operand string
+        let operand = ""
 
         // Trace the instruction
         print("\(pc.hex)  \(instr.opcode.hex) \(bytes)  \(instr.type.name) \(operand)")

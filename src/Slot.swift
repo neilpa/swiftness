@@ -33,7 +33,7 @@ class ImmediateSlot : Slot {
 
     // TODO Should this be resolved immediately and cached?
     func load() -> Byte {
-        return cpu.fetch()
+        return cpu.fetchByte()
     }
     
     func store(val: Byte) {
@@ -65,7 +65,17 @@ class MemorySlot : Slot {
         address = addr
         memory = mem
     }
-    
+
+    // Absolute/indirect plus offset
+    convenience init(base: Address, offset: Byte, mem: Memory) {
+        self.init(addr: base +! Address(offset), mem: mem)
+    }
+
+    // Zero page plus offset
+    convenience init(base: Byte, offset: Byte, mem: Memory) {
+        self.init(addr: Address(base +! offset), mem: mem)
+    }
+
     func load() -> Byte {
         return memory[address]
     }
