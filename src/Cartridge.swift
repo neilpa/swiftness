@@ -17,10 +17,10 @@ class Cartridge {
     let header: [Byte] = [Byte](count: 16, repeatedValue: 0)
 
     // Program ROM on the cart
-    let prgROM: [Byte]
+    let prgROM: Memory
     
     // Character ROM on the cart
-    let chrROM: [Byte]
+    let chrROM: ROM
     
     // Path on disk to the .nes file
     init(path: String) {
@@ -28,12 +28,21 @@ class Cartridge {
         data.getBytes(&header, length: header.count)
         
         // TODO Avoid these allocs
-        let prgBytes = Int(header[4]) * prgChunkSize
-        prgROM = [Byte](count: prgBytes, repeatedValue: 0)
-        data.getBytes(&prgROM, range: NSMakeRange(header.count, prgBytes))
-        
+        let prgBanks = Int(header[4])
+        let prgBytes = prgBanks * prgChunkSize
+        var bytes = [Byte](count: prgBytes, repeatedValue: 0)
+        data.getBytes(&bytes, range: NSMakeRange(header.count, prgBytes))
+
+        // Mirror the cartridge ROM if it only has 1 memory bank
+        var rom: Memory = ROM(data: bytes)
+        if (prgBanks == 1) {
+            rom = MemMirror(memory: rom, size: Address(prgChunkSize))
+        }
+        prgROM = rom;
+
         let chrBytes = Int(header[5]) * chrChunkSize
-        chrROM = [Byte](count: chrBytes, repeatedValue: 0)
-        data.getBytes(&chrROM, range: NSMakeRange(header.count + prgBytes, chrBytes))
+        bytes = [Byte](count: chrBytes, repeatedValue: 0)
+        data.getBytes(&bytes, range: NSMakeRange(header.count + prgBytes, chrBytes))
+        chrROM = ROM(data: bytes)
     }
 }

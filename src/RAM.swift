@@ -6,20 +6,17 @@
 //  Copyright (c) 2014 Neil Pankey. All rights reserved.
 //
 
-// Simple 64KB of memory module
+// Simple wrapper around a byte array to implement a block of RAM
 
 class RAM : Memory {
-    var data: [Byte] = [Byte](count:66000, repeatedValue:0)
-
-    convenience init (prog: [Byte]) {
-        self.init(prog: prog, offset: 0)
+    var data: [Byte]
+    
+    init (var data: [Byte]) {
+        self.data = data
     }
 
-    init (prog: [Byte], offset: Int) {
-        // TODO Is there a better way
-        for (index, byte) in enumerate(prog) {
-            data[index + offset] = byte
-        }
+    convenience init (size: Int) {
+        self.init(data: [Byte](count: size, repeatedValue: 0))
     }
 
     subscript (address: Address) -> Byte {
@@ -31,3 +28,4 @@ class RAM : Memory {
         }
     }
 }
+

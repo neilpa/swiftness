@@ -22,6 +22,8 @@
 		D8CC9D9219712D2300CD8103 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8CC9D9019712D2300CD8103 /* MainMenu.xib */; };
 		D8CC9DA61973515400CD8103 /* PPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA51973515400CD8103 /* PPU.swift */; };
 		D8CC9DA81973667300CD8103 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA71973667300CD8103 /* Cartridge.swift */; };
+		D8CC9DAA197375C600CD8103 /* MemMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA9197375C600CD8103 /* MemMap.swift */; };
+		D8CC9DAC19737E7E00CD8103 /* ROM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DAB19737E7E00CD8103 /* ROM.swift */; };
 		D8D017B61970B9D10092A199 /* Disassembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B51970B9D10092A199 /* Disassembler.swift */; };
 		D8D017B8197111500092A199 /* Overflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B7197111500092A199 /* Overflow.swift */; };
 		D8E8826C196D2A7900953007 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E8826B196D2A7900953007 /* CPU.swift */; };
@@ -58,6 +60,8 @@
 		D8CC9D9119712D2300CD8103 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D8CC9DA51973515400CD8103 /* PPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPU.swift; sourceTree = "<group>"; };
 		D8CC9DA71973667300CD8103 /* Cartridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cartridge.swift; sourceTree = "<group>"; };
+		D8CC9DA9197375C600CD8103 /* MemMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemMap.swift; sourceTree = "<group>"; };
+		D8CC9DAB19737E7E00CD8103 /* ROM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROM.swift; sourceTree = "<group>"; };
 		D8D017B51970B9D10092A199 /* Disassembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Disassembler.swift; sourceTree = "<group>"; };
 		D8D017B7197111500092A199 /* Overflow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overflow.swift; sourceTree = "<group>"; };
 		D8E8826B196D2A7900953007 /* CPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
@@ -133,11 +137,13 @@
 				D8D017B51970B9D10092A199 /* Disassembler.swift */,
 				D89367B4196D2B620057FF5A /* Instruction.swift */,
 				D8EDB750196D0D6000548ABE /* main.swift */,
+				D8CC9DA9197375C600CD8103 /* MemMap.swift */,
 				D89367B8196E5F0A0057FF5A /* Memory.swift */,
 				D8D017B7197111500092A199 /* Overflow.swift */,
 				D8CC9DA51973515400CD8103 /* PPU.swift */,
 				D89367BA196E5F300057FF5A /* RAM.swift */,
 				D839E2ED196E904500DCEE8E /* Register.swift */,
+				D8CC9DAB19737E7E00CD8103 /* ROM.swift */,
 				D8498088196FDDF1002C2E64 /* Slot.swift */,
 			);
 			path = src;
@@ -248,6 +254,7 @@
 				D8CC9DA61973515400CD8103 /* PPU.swift in Sources */,
 				D8498089196FDDF1002C2E64 /* Slot.swift in Sources */,
 				D89367B7196D2C1D0057FF5A /* AddressingMode.swift in Sources */,
+				D8CC9DAA197375C600CD8103 /* MemMap.swift in Sources */,
 				D89367B5196D2B620057FF5A /* Instruction.swift in Sources */,
 				D8E8826C196D2A7900953007 /* CPU.swift in Sources */,
 				D8D017B8197111500092A199 /* Overflow.swift in Sources */,
@@ -257,6 +264,7 @@
 				D839E2EE196E904500DCEE8E /* Register.swift in Sources */,
 				D839E2EC196E903E00DCEE8E /* Address.swift in Sources */,
 				D8D017B61970B9D10092A199 /* Disassembler.swift in Sources */,
+				D8CC9DAC19737E7E00CD8103 /* ROM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

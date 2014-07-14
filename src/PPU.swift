@@ -12,9 +12,8 @@ class PPU {
 
     // PPU Registers (mapped to $2000-$2007 of CPU memory)
 
-    var control1: Register = 0 // $2000
-    var control2: Register = 0 // $2001
-
+    var ctrl: Register = 0 // $2000
+    var mask: Register = 0 // $2001
     var status: Register = 0 // $2002
 
     var spriteIndex: Register = 0 // $2003

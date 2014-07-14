@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Neil Pankey. All rights reserved.
 //
 
-import Foundation
-
 // Flags in the processor status register
 let negativeMask:   Byte = 1 << 7
 let overflowMask:   Byte = 1 << 6
@@ -179,7 +177,7 @@ class CPU {
         case .TXA: txa(mode)
         case .TXS: txs(mode)
         case .TYA: tya(mode)
-            
+
         // Undocumented instructions
         case .LAX: lax(mode)
         case .SAX: sax(mode)
@@ -190,6 +188,12 @@ class CPU {
 }
 
 // Instructions
+
+// N.B. from http://nesdev.com/NinTech.txt
+// - Read Modify Write instructions (inc, asl etc) will read, write back the same value then
+//   modify and write the right value to the memory address. Beware of the dummy write.
+// - Any kind of Index will have a dummy read before fixing high address byte
+// - BRK is 2 bytes
 
 extension CPU {
 

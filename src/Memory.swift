@@ -19,3 +19,47 @@ func writeWord(addr: Address, val: UInt16, var mem: Memory) {
     mem[addr] = val.lowByte
     mem[addr + 1] = val.highByte
 }
+
+// Mirror a block of memory every `size` bytes
+
+class MemMirror : Memory {
+    var memory: Memory
+    let size: Address
+    
+    init (var memory: Memory, size: Address) {
+        self.memory = memory
+        self.size = size
+    }
+
+    subscript (addr: Address) -> Byte {
+        get {
+            return memory[addr % size]
+        }
+        set {
+            memory[addr % size] = newValue
+        }
+    }
+}
+
+// Offset a block of memory
+
+class MemOffset : Memory {
+    var memory: Memory
+    let offset: Address
+    
+    init(var memory: Memory, offset: Address) {
+        self.memory = memory
+        self.offset = offset
+    }
+    
+    subscript (addr: Address) -> Byte {
+        // TODO What about wrap/overflow
+        get {
+            return memory[addr - offset]
+        }
+        set {
+            println("\(addr) \(offset)")
+            memory[addr - offset] = newValue
+        }
+    }
+}
