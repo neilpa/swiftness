@@ -22,8 +22,8 @@ let cart = Cartridge(path: path)
 cpu = CPU(memory: MemMap(cart: cart, ppu: PPU()))
 
 // HACK expected starting context
-cpu.pc = 0x8000
-cpu.sp = 0xfd
 cpu.setFlag(true, irqMask)
 
-run(9000)
+while (true) {
+    cpu.step()
+}

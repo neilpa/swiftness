@@ -105,7 +105,7 @@ class PPU {
     //       Bit 7 is cleared on read.
     //       The PPU Toggle Bit is also cleared
     struct Status {
-        var value: Register = 0
+        var value: Register = 0x80
         func __conversion() -> Register { return value }
 
         var spriteOverflowFlag: Bool {
@@ -168,6 +168,17 @@ class PPU {
         // TODO
     }
 
+    // $4014 | W   | DMA Access to the Sprite Memory
+    //       |     | Writing a value N into this port causes an area of CPU memory
+    //       |     | at address $100*N to be transferred into the Sprite Memory. It
+    //       |     | does this 256 times thus being 512 CPU cycles long. Most if not
+    //       |     | all games write $00 to $2003 before writing to the DMA. The DMA
+    //       |     | purpose is to update the PPU's sprram quickly during thet
+    //       |     | precious vblank time.
+    // N.B. During this time the CPU is effectively stalled since the data bus is in
+    // use to do the DMA, preventing the CPU from fetching instructions
+    // TODO
+    
     // PPU Memory Map
     let palette: [Byte] = [Byte](count: 0x20, repeatedValue: 0)
     let nameTables: [Byte] = [Byte](count: 0x1000, repeatedValue: 0)

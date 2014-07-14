@@ -36,14 +36,13 @@ class CPU {
     var y: Register = 0 // y indexer
 
     // Stack pointer starts at the top and grows down
-    // TODO Double check stack behavior
-    var sp: Register = 0xff
+    var sp: Register = 0xfd
 
     // Processor status flags register
-    var flags: Register = defaultFlags
+    var flags: Register = defaultFlags | irqMask | brkMask
 
     // Program counter register
-    var pc: Address = 0 // TODO resetVector
+    var pc: Address = 0
 
     // Memory
     var mem: Memory
@@ -54,6 +53,7 @@ class CPU {
     init(memory: Memory) {
         mem = memory
         disassembler = Disassembler(mem: memory)
+        pc = readWord(resetVector, mem)
     }
 
     // Register helpers
@@ -111,7 +111,7 @@ class CPU {
         let instr = disassembler.decode(opcode)
         return (instr.type, instr.mode)
     }
-
+    
     // Step a single fetch-decode-execute cycle
     func step() {
         disassembler.trace(pc)
