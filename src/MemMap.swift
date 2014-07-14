@@ -26,8 +26,6 @@ class MemMap : Memory {
     let rom: Memory
     var ppu: PPU
     
-    let blackhole = MemNil()
-
     init(cart: Cartridge, ppu: PPU) {
         // TODO Internal RAM is mirrored 4 times
         //self.ram = MemMirror(memory: RAM(size: 0x800), size: 0x8000)
@@ -41,42 +39,50 @@ class MemMap : Memory {
     }
 
     subscript (addr: Address) -> Byte {
+        // TODO Figure out why I can't get pattern matching to work
         get {
-            return map(addr)[addr]
+            if (0x2000 <= addr && addr <= 0x3fff) {
+                // TODO Some of this is broken
+                switch addr % 8 {
+                case 0: return ppu.ctrl
+                case 1: return ppu.mask
+                case 2: return ppu.status // TODO update on read
+                case 3: return ppu.spriteIndex
+                case 4: return 0 // TODO
+                case 5: return ppu.scroll
+                case 6: return ppu.memAddress
+                case 7: return 0 // TODO
+                default: return 0 // TODO
+                }
+            } else if (0x0000 <= addr && addr <= 0x7fff) {
+                return ram[addr]
+            } else if (0x8000 <= addr && addr <= 0xffff) {
+                return rom[addr]
+            } else {
+                assert(false, "Invalid address")
+                return 0
+            }
         }
         set {
-            var memory = map(addr)
-            memory[addr] = newValue
+            if (0x2000 <= addr && addr <= 0x3fff) {
+                switch addr % 8 {
+                case 0: ppu.ctrl.value = newValue // TODO
+                case 1: ppu.mask.value = newValue // TODO
+                case 2: assert(false, "Can't right status")
+                case 3: ppu.spriteIndex = newValue
+                case 4: ppu.writeSprite(newValue)
+                case 5: ppu.scroll = newValue // TODO is this right?
+                case 6: ppu.memAddress = newValue
+                case 7: ppu.writeMem(newValue)
+                default: break
+                }
+            } else if (0x0000 <= addr && addr <= 0x7fff) {
+                ram[addr] = newValue
+            } else if (0x8000 <= addr && addr <= 0xffff) {
+                assert(false, "Can't write to ROM")
+            } else {
+                assert(false, "Invalid address")
+            }
         }
-    }
-
-    // Resolve to the underlying memory block
-    func map(addr: Address) -> Memory {
-        if (0x0000 <= addr && addr <= 0x7fff) {
-            return ram
-        } else if (0x8000 <= addr && addr <= 0xffff) {
-            return rom
-        } else {
-            assert(false, "Invalid address")
-        }
-        
-        // TODO Not sure why these pattern matches don't work
-//        switch addr {
-//            case 0x0000...0x7fff: return ram
-//            case 0x8000...0xffff: return rom
-//            default: assert(false, "Not implemented")
-//        }
-        
-        return blackhole
-    }
-}
-
-// Memory black hole for invalid cases
-
-class MemNil : Memory {
-    subscript (addr: Address) -> Byte {
-        // TODO Trace invalid accesses here
-        get { return 0 }
-        set { }
     }
 }

@@ -15,8 +15,8 @@ func run(var count: Int) {
     }
 }
 
-let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
-//let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
+//let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
+let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
 let cart = Cartridge(path: path)
 
 cpu = CPU(memory: MemMap(cart: cart, ppu: PPU()))
