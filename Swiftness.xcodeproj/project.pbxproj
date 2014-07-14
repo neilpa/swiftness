@@ -20,6 +20,7 @@
 		D8CC9D8D19712D2300CD8103 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D8CC9D8C19712D2300CD8103 /* GameScene.sks */; };
 		D8CC9D8F19712D2300CD8103 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8CC9D8E19712D2300CD8103 /* Images.xcassets */; };
 		D8CC9D9219712D2300CD8103 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8CC9D9019712D2300CD8103 /* MainMenu.xib */; };
+		D8CC9DA61973515400CD8103 /* PPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA51973515400CD8103 /* PPU.swift */; };
 		D8D017B61970B9D10092A199 /* Disassembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B51970B9D10092A199 /* Disassembler.swift */; };
 		D8D017B8197111500092A199 /* Overflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B7197111500092A199 /* Overflow.swift */; };
 		D8E8826C196D2A7900953007 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E8826B196D2A7900953007 /* CPU.swift */; };
@@ -54,6 +55,7 @@
 		D8CC9D8C19712D2300CD8103 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		D8CC9D8E19712D2300CD8103 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D8CC9D9119712D2300CD8103 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D8CC9DA51973515400CD8103 /* PPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPU.swift; sourceTree = "<group>"; };
 		D8D017B51970B9D10092A199 /* Disassembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Disassembler.swift; sourceTree = "<group>"; };
 		D8D017B7197111500092A199 /* Overflow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overflow.swift; sourceTree = "<group>"; };
 		D8E8826B196D2A7900953007 /* CPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPU.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				D89367B6196D2C1D0057FF5A /* AddressingMode.swift */,
 				D8E8826B196D2A7900953007 /* CPU.swift */,
 				D8D017B51970B9D10092A199 /* Disassembler.swift */,
+				D8CC9DA51973515400CD8103 /* PPU.swift */,
 				D89367B4196D2B620057FF5A /* Instruction.swift */,
 				D8EDB750196D0D6000548ABE /* main.swift */,
 				D89367B8196E5F0A0057FF5A /* Memory.swift */,
@@ -239,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89367BB196E5F300057FF5A /* RAM.swift in Sources */,
+				D8CC9DA61973515400CD8103 /* PPU.swift in Sources */,
 				D8498089196FDDF1002C2E64 /* Slot.swift in Sources */,
 				D89367B7196D2C1D0057FF5A /* AddressingMode.swift in Sources */,
 				D89367B5196D2B620057FF5A /* Instruction.swift in Sources */,
