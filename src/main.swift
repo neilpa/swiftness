@@ -16,13 +16,9 @@ func run(var count: Int) {
 }
 
 let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
-let cart = NSData(contentsOfFile: path)
+let cart = Cartridge(path: path)
 
-var size = 16 * 1024
-var rom = [Byte](count: size, repeatedValue: 0)
-cart.getBytes(&rom, range: NSMakeRange(16, size))
-
-cpu = CPU(memory: RAM(prog: rom, offset: 0xc000))
+cpu = CPU(memory: RAM(prog: cart.prgROM, offset: 0xc000))
 
 // HACK expected starting context
 cpu.pc = 0xc000
