@@ -29,6 +29,9 @@ let resetVector: Address = 0xfffc
 let irqVector:   Address = 0xfffe
 
 class CPU {
+    
+    // Turn instruction tracing on/off
+    var trace = false
 
     // General purpose registers
     var a: Register = 0 // accumulator
@@ -114,8 +117,10 @@ class CPU {
     
     // Step a single fetch-decode-execute cycle
     func step() {
-        disassembler.trace(pc)
-        println(String(format:"  A:%02X X:%02X Y:%02X P:%02X SP:%02X", a, x, y, flags, sp))
+        if trace {
+            disassembler.trace(pc)
+            println(String(format:"  A:%02X X:%02X Y:%02X P:%02X SP:%02X", a, x, y, flags, sp))
+        }
 
         let code: Byte = fetchByte()
         let (instruction, mode) = decode(code)

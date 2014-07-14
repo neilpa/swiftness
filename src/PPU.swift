@@ -131,8 +131,12 @@ class PPU {
     //       |     | contains coordinates, colors, and other sprite attributes
     //       |     | sprites.
     var spriteIndex: Register = 0
+    var spriteMemory = RAM(size: 256)
+    func readSprite() -> Byte {
+        return spriteMemory[Address(spriteIndex++)]
+    }
     func writeSprite(val: Byte) {
-        // TODO
+        spriteMemory[Address(spriteIndex++)] = val
     }
     
     // $2005 | W   | Screen Scroll Offsets
@@ -153,19 +157,32 @@ class PPU {
     //       |     | Remember that because of the mirroring there are only 2 real
     //       |     | Name Tables, not 4.
     var scroll: Register = 0
+    // TODO scrollX and scrollY
     
     // $2006 | W   | PPU Memory Address
     //       |     | Used to set the address of PPU Memory to be accessed via
-    //       |     | $2007. The first write to this register will set 8 lower
-    //       |     | address bits. The second write will set 6 upper bits. The
+    //       |     | $2007. The first write to this register will set 6 upper
+    //       |     | address bits. The second write will set 8 lower bits. The
     //       |     | address will increment either by 1 or by 32 after each
     //       |     | access to $2007
     // $2007 | RW  | PPU Memory Data
     //       |     | Used to read/write the PPU Memory. The address is set via
     //       |     | $2006 and increments after each access, either by 1 or by 32
-    var memAddress: Register = 0
+    var memAddr: Address = 0
+    var lowByte: Bool = false
+    func writeAddr(val: Byte) {
+        if (lowByte) {
+            memAddr = Address(low: val, high: memAddr.highByte)
+        } else {
+            memAddr = Address(low: memAddr.lowByte, high: val)
+        }
+        lowByte = !lowByte
+        println("PPU Addr \(val.hex) @\(memAddr.hex)")
+    }
     func writeMem(val: Byte) {
-        // TODO
+        println("PPU Write \(val.hex) @\(memAddr.hex)")
+        nameTables[memAddr] = val
+        memAddr += ctrl.writeIncrement
     }
 
     // $4014 | W   | DMA Access to the Sprite Memory
@@ -178,10 +195,9 @@ class PPU {
     // N.B. During this time the CPU is effectively stalled since the data bus is in
     // use to do the DMA, preventing the CPU from fetching instructions
     // TODO
-    
+
     // PPU Memory Map
-    let palette: [Byte] = [Byte](count: 0x20, repeatedValue: 0)
-    let nameTables: [Byte] = [Byte](count: 0x1000, repeatedValue: 0)
+    var nameTables: Memory = MemOffset(memory: RAM(size: 0x1000), offset: 0x2000)
 
     //---------------------------------------- $4000
     // Empty
