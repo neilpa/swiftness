@@ -21,6 +21,8 @@
 //  *1: Carts may use this offset range & written values for a number of things
 //  *2: May be switch able depending on cart Along with *1
 
+// TODO Look to cleanup some of this code
+
 class MemMap : Memory {
     var ram: Memory
     let rom: Memory

@@ -8,7 +8,52 @@
 
 // The NES Picture Processing Unit
 
+//
+// From http://nesdev.icequake.net/NES%20emulation%20discussion.txt
+//
+// CPUCC to X/Y coordinate equations
+// ---------------------------------
+// The PPU renders 3 pixels in one CPU clock. Therefore, by multiplying the CPU
+// CC figure by 3, we get the total amount of pixels that have been rendered
+// (including non-displayed ones) since the VINT.
+//
+// 341 pixels are rendered per scanline (although only 256 are displayed).
+// Therefore, by dividing PPUCC by this, we get the # of completely rendered
+// scanlines since the VINT.
+//
+// 21 blank scanlines are rendered before the first visible one is displayed.
+// So, to get a scanline offset into the actual on-screen image, we simply
+// subtract the amount of non-displayed scanlines. Note that if this yeilds a
+// negative number, the PPU is still in the V-blank period.
+//
+// PPUCC = CPUCC * 3
+// Scanline = PPUCC div 341 - 21
+// PixelOfs = (PPUCC+16) mod 341
+// CPUcollisionCC = ((Y+21)*341+X)/3
+//
+// Note that if the PixelOfs equation yeilds a number higher than 255, the PPU
+// is in the H-blank period. Also, fetched pattern table bitmaps have to travel
+// through internal shift registers before they appear on the video out of the
+// PPU, and that's why you see a +16 there; this is the delay.
+//
+
+// TODO Need to wrap my head around CPUcollissionCC
+
+let vblankScanlines = 21
+
+let screenWidth = 256
+let screenHeight = 240
+
+// TODO Look to cleanup some of this code
+
 class PPU {
+
+    // PPU Bookkeeping
+    let screen = [Byte](count:screenHeight*screenWidth, repeatedValue: 0)
+    let scanline = -vblankScanlines
+    let cycle = 0
+
+    // PPU Registers
 
     // $2000 | RW  | PPU Control Register 1
     //       | 0-1 | Name Table Address:
@@ -139,6 +184,9 @@ class PPU {
         spriteMemory[Address(spriteIndex++)] = val
     }
     
+    // TODO Sane explination here
+    // http://wiki.nesdev.com/w/index.php/PPU_scrolling
+    
     // $2005 | W   | Screen Scroll Offsets
     //       |     | There are two scroll registers, vertical and horizontal, 
     //       |     | which are both written via this port. The first value written
@@ -157,7 +205,6 @@ class PPU {
     //       |     | Remember that because of the mirroring there are only 2 real
     //       |     | Name Tables, not 4.
     var scroll: Register = 0
-    // TODO scrollX and scrollY
     
     // $2006 | W   | PPU Memory Address
     //       |     | Used to set the address of PPU Memory to be accessed via
@@ -181,7 +228,11 @@ class PPU {
     }
     func writeMem(val: Byte) {
         println("PPU Write \(val.hex) @\(memAddr.hex)")
-        nameTables[memAddr] = val
+        if (0x3F00 <= memAddr && memAddr <= 0x3FFF) {
+            palette[memAddr] = val
+        } else {
+            nameTables[memAddr] = val
+        }
         memAddr += ctrl.writeIncrement
     }
 
@@ -197,7 +248,9 @@ class PPU {
     // TODO
 
     // PPU Memory Map
+    // TODO These need to mirror (and check my offsets/sizes)
     var nameTables: Memory = MemOffset(memory: RAM(size: 0x1000), offset: 0x2000)
+    var palette: Memory = MemOffset(memory: RAM(size: 0x0100), offset: 0x3F00)
 
     //---------------------------------------- $4000
     // Empty
@@ -228,5 +281,4 @@ class PPU {
     //---------------------------------------- $1000
     // Pattern Table 0 (256x2x8, may be VROM)
     //---------------------------------------- $0000
-
 }

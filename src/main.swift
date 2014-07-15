@@ -13,9 +13,11 @@ let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
 let cart = Cartridge(path: path)
 
 var cpu = CPU(memory: MemMap(cart: cart, ppu: PPU()))
-//cpu.trace = true
+cpu.trace = true
 
+var count = 0
 while (true) {
     // TODO Should return num cycles
+    print(String(format:"%05i", count++) + "  ")
     cpu.step()
 }
