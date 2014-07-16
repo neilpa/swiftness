@@ -10,6 +10,10 @@
 		D839E2EC196E903E00DCEE8E /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2EB196E903E00DCEE8E /* Address.swift */; };
 		D839E2EE196E904500DCEE8E /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2ED196E904500DCEE8E /* Register.swift */; };
 		D8498089196FDDF1002C2E64 /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8498088196FDDF1002C2E64 /* Slot.swift */; };
+		D88D18DC19751BF20060EA46 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88D18DB19751BF20060EA46 /* main.swift */; };
+		D88D18DE19751BF20060EA46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88D18DD19751BF20060EA46 /* AppDelegate.swift */; };
+		D88D18E019751BF20060EA46 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D88D18DF19751BF20060EA46 /* Images.xcassets */; };
+		D88D18E319751BF20060EA46 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D88D18E119751BF20060EA46 /* MainMenu.xib */; };
 		D89367B5196D2B620057FF5A /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B4196D2B620057FF5A /* Instruction.swift */; };
 		D89367B7196D2C1D0057FF5A /* AddressingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B6196D2C1D0057FF5A /* AddressingMode.swift */; };
 		D89367B9196E5F0A0057FF5A /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B8196E5F0A0057FF5A /* Memory.swift */; };
@@ -40,6 +44,12 @@
 		D839E2EB196E903E00DCEE8E /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		D839E2ED196E904500DCEE8E /* Register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		D8498088196FDDF1002C2E64 /* Slot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Slot.swift; sourceTree = "<group>"; };
+		D88D18D719751BF20060EA46 /* SwiftNES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNES.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D88D18DA19751BF20060EA46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D88D18DB19751BF20060EA46 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D88D18DD19751BF20060EA46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D88D18DF19751BF20060EA46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D88D18E219751BF20060EA46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D89367B4196D2B620057FF5A /* Instruction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		D89367B6196D2C1D0057FF5A /* AddressingMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressingMode.swift; sourceTree = "<group>"; };
 		D89367B8196E5F0A0057FF5A /* Memory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
@@ -56,6 +66,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D88D18D419751BF20060EA46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8EDB74A196D0D6000548ABE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -66,10 +83,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D88D18D819751BF20060EA46 /* SwiftNES */ = {
+			isa = PBXGroup;
+			children = (
+				D88D18DD19751BF20060EA46 /* AppDelegate.swift */,
+				D88D18DF19751BF20060EA46 /* Images.xcassets */,
+				D88D18E119751BF20060EA46 /* MainMenu.xib */,
+				D88D18D919751BF20060EA46 /* Supporting Files */,
+			);
+			path = SwiftNES;
+			sourceTree = "<group>";
+		};
+		D88D18D919751BF20060EA46 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D88D18DA19751BF20060EA46 /* Info.plist */,
+				D88D18DB19751BF20060EA46 /* main.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		D8EDB744196D0D6000548ABE = {
 			isa = PBXGroup;
 			children = (
 				D8EDB757196D0E5900548ABE /* src */,
+				D88D18D819751BF20060EA46 /* SwiftNES */,
 				D8EDB74E196D0D6000548ABE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				D8EDB74D196D0D6000548ABE /* Swiftness */,
+				D88D18D719751BF20060EA46 /* SwiftNES.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +146,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D88D18D619751BF20060EA46 /* SwiftNES */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D88D18F019751BF20060EA46 /* Build configuration list for PBXNativeTarget "SwiftNES" */;
+			buildPhases = (
+				D88D18D319751BF20060EA46 /* Sources */,
+				D88D18D419751BF20060EA46 /* Frameworks */,
+				D88D18D519751BF20060EA46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftNES;
+			productName = SwiftNES;
+			productReference = D88D18D719751BF20060EA46 /* SwiftNES.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D8EDB74C196D0D6000548ABE /* Swiftness */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8EDB754196D0D6000548ABE /* Build configuration list for PBXNativeTarget "Swiftness" */;
@@ -133,6 +189,9 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Neil Pankey";
 				TargetAttributes = {
+					D88D18D619751BF20060EA46 = {
+						CreatedOnToolsVersion = 6.0;
+					};
 					D8EDB74C196D0D6000548ABE = {
 						CreatedOnToolsVersion = 6.0;
 					};
@@ -152,11 +211,33 @@
 			projectRoot = "";
 			targets = (
 				D8EDB74C196D0D6000548ABE /* Swiftness */,
+				D88D18D619751BF20060EA46 /* SwiftNES */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		D88D18D519751BF20060EA46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D88D18E019751BF20060EA46 /* Images.xcassets in Resources */,
+				D88D18E319751BF20060EA46 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		D88D18D319751BF20060EA46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D88D18DE19751BF20060EA46 /* AppDelegate.swift in Sources */,
+				D88D18DC19751BF20060EA46 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8EDB749196D0D6000548ABE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,7 +262,48 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		D88D18E119751BF20060EA46 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D88D18E219751BF20060EA46 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		D88D18F119751BF20060EA46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftNES/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D88D18F219751BF20060EA46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SwiftNES/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D8EDB752196D0D6000548ABE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -274,6 +396,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D88D18F019751BF20060EA46 /* Build configuration list for PBXNativeTarget "SwiftNES" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D88D18F119751BF20060EA46 /* Debug */,
+				D88D18F219751BF20060EA46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D8EDB748196D0D6000548ABE /* Build configuration list for PBXProject "Swiftness" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

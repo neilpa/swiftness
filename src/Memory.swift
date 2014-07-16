@@ -58,7 +58,6 @@ class MemOffset : Memory {
             return memory[addr - offset]
         }
         set {
-            println("\(addr) \(offset)")
             memory[addr - offset] = newValue
         }
     }
