@@ -27,6 +27,3 @@ while (++count < 20000) {
 }
 
 ppu.raster(cart)
-
-println()
-

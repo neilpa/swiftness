@@ -64,7 +64,7 @@ class PPU {
         var spritePatternTable: Address {
             return value & (1 << 3) != 0 ? 0x1000 : 0x0000
         }
-        var screenPatternTable: Address {
+        var backgroundPatternTable: Address {
             return value & (1 << 4) != 0 ? 0x1000 : 0x0000
         }
         var doubleSpriteSize : Bool {
@@ -179,7 +179,7 @@ class PPU {
             palette[memAddr] = val
         } else {
             nameTables[memAddr] = val
-            println("nametable[\(memAddr.hex)] = \(val) {\(nameTables[memAddr])}")
+//            println("nametable[\(memAddr.hex)] = \(val) {\(nameTables[memAddr])}")
         }
         memAddr += ctrl.writeIncrement
     }
@@ -241,6 +241,7 @@ class PPU {
     let nameTableColumns = 32 // screenWidth / tileWidth
     let nameTableRows = 30 // screenHeight / tileHeight
     
+    // TODO Kill this, and start counting cycles
     func raster(cart: Cartridge) {
         for scanline in 0..<screenHeight {
             // Base nametable index for this row following above layout
@@ -250,8 +251,9 @@ class PPU {
                 let nameTableIndex = nameTableBase + (x / tileWidth)
                 let nameTableAddr = ctrl.nameTableAddr + Address(nameTableIndex)
                 let tileIndex = nameTables[nameTableAddr]
-                let tileAddr = Address(Int(tileIndex) * bytesPerTile + scanline % tileHeight)
-                
+                let tileBase = Int(tileIndex) * bytesPerTile + scanline % tileHeight
+                let tileAddr = Address(tileBase) + ctrl.backgroundPatternTable
+
                 // TODO Pick the right ROM
                 let plane0 = cart.chrROM[tileAddr]
                 let plane1 = cart.chrROM[tileAddr + Address(tileHeight)]
@@ -259,23 +261,21 @@ class PPU {
                 let bit0 = (plane0 >> shift) & 1
                 let bit1 = (plane1 >> shift) & 1
                 let color = bit1 << 1 | bit0
+                
+                // TODO Attribute table
+                // TODO Color from palette
 
-                screen[scanline*screenWidth + x] = color
-                println("[\(nameTableAddr.hex), \(tileAddr)] \(x),\(scanline) = \(color)")
+                screen[scanline*screenWidth + x].R = color
+                screen[scanline*screenWidth + x].G = color
+                screen[scanline*screenWidth + x].B = color
             }
         }
     }
 
     // PPU Bookkeeping
-    var screen = [Byte](count:256*240, repeatedValue: 0)
+    var screen = [ColorRGB](count:256*240, repeatedValue: ColorRGB(0, 0, 0))
     //let scanline = 0
     //let cycle = 0
-    
-    //    subscript(x: Int, y: Int) -> Byte {
-    //        let bit0 = (memory[offset + Address(x)] >> Byte(y)) & 1
-    //        let bit1 = (memory[offset + Address(x) + 8] >> Byte(y)) & 1
-    //        return (bit1 << 1) | bit0
-    //    }
     
     func step() {
     }
