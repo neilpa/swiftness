@@ -17,15 +17,15 @@ extension UInt8 : Overflowable {}
 extension UInt16 : Overflowable {}
 
 // Addition that ignores overflow
-operator infix +! {}
-@infix func +!<T: Overflowable> (lhs: T, rhs: T) -> T {
+infix operator  +! {}
+func +!<T: Overflowable> (lhs: T, rhs: T) -> T {
     let (sum, _) = T.addWithOverflow(lhs, rhs)
     return sum
 }
 
 // Subtraction that ignores overflow
-operator infix -! {}
-@infix func -!<T: Overflowable> (lhs: T, rhs: T) -> T {
+infix operator  -! {}
+func -!<T: Overflowable> (lhs: T, rhs: T) -> T {
     let (diff, _) = T.subtractWithOverflow(lhs, rhs)
     return diff
 }

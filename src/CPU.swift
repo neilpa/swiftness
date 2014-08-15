@@ -279,7 +279,7 @@ extension CPU {
     func addition(val: Byte) {
         // Let Swift figure out carry and overflow
         var (res, carry) = Byte.addWithOverflow(a, val)
-        var (signed, overflow) = Int8.addWithOverflow(a.asSigned(), val.asSigned())
+        var (signed, overflow) = Int8.addWithOverflow(Int8(bitPattern: a), Int8(bitPattern: val))
         
         // Check if that final bit pushes us over the top
         if (getFlag(carryMask)) {
@@ -412,7 +412,7 @@ extension CPU {
 
     // Branch operations
     func branch(jump: Bool) {
-        let operand = fetchByte().asSigned()
+        let operand = Int8(bitPattern: fetchByte())
         if jump {
             let base = Int(pc)
             let offset = Int(operand)
