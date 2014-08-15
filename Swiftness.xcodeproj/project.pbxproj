@@ -26,7 +26,6 @@
 		D8D017B8197111500092A199 /* Overflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B7197111500092A199 /* Overflow.swift */; };
 		D8E2CA321977A1FC00F3AA3D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E2CA311977A1FC00F3AA3D /* Palette.swift */; };
 		D8E2CA331977B62600F3AA3D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E2CA311977A1FC00F3AA3D /* Palette.swift */; };
-		D8E2CA341977B62E00F3AA3D /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2ED196E904500DCEE8E /* Register.swift */; };
 		D8E2CA391977BC5500F3AA3D /* NSWindow+CGContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E2CA381977BC5500F3AA3D /* NSWindow+CGContext.m */; };
 		D8E8826C196D2A7900953007 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E8826B196D2A7900953007 /* CPU.swift */; };
 		D8EDB751196D0D6000548ABE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EDB750196D0D6000548ABE /* main.swift */; };
@@ -248,7 +247,6 @@
 				D8E2CA331977B62600F3AA3D /* Palette.swift in Sources */,
 				D8E2CA391977BC5500F3AA3D /* NSWindow+CGContext.m in Sources */,
 				D88D18DE19751BF20060EA46 /* AppDelegate.swift in Sources */,
-				D8E2CA341977B62E00F3AA3D /* Register.swift in Sources */,
 				D88D18DC19751BF20060EA46 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,7 +22,7 @@ var screen = [RGB](count:Int(pixels), repeatedValue:RGB(r:255, g:0, b:0))
 
 class AppDelegate: NSObject, NSApplicationDelegate {
                             
-    @IBOutlet var window: NSWindow
+    @IBOutlet var window: NSWindow?
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
         
@@ -33,7 +33,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        let context: CGContext? = window.cgContext()
+//        let context: CGContext? = window?.cgContext()
+        let context: CGContext! = window?.cgContext()
         let data = NSData(bytes: screen, length: screen.count * sizeof(RGB))
         let provider = CGDataProviderCreateWithCFData(data)
         let colorspace = CGColorSpaceCreateDeviceRGB()
