@@ -46,9 +46,9 @@ class MemMap : Memory {
             if (0x2000 <= addr && addr <= 0x3fff) {
                 // TODO Some of this is broken
                 switch addr % 8 {
-                case 0: return ppu.ctrl
-                case 1: return ppu.mask
-                case 2: return ppu.status // TODO update on read
+                case 0: return ppu.ctrl.value
+                case 1: return ppu.mask.value
+                case 2: return ppu.status.value // TODO update on read
                 case 3: return ppu.spriteIndex
                 case 4: return 0 // TODO
                 case 5: return ppu.scroll

@@ -53,7 +53,6 @@ class PPU {
 
     struct Ctrl {
         var value: Register = 0
-        func __conversion() -> Register { return value }
 
         var nameTableAddr: Address {
             return 0x2000 + Address(value % 4) * 0x0400
@@ -78,7 +77,6 @@ class PPU {
 
     struct Mask {
         var value: Register = 0
-        func __conversion() -> Register { return value }
 
         var monochrome: Bool {
             return value & (1 << 0) == 0
@@ -106,7 +104,6 @@ class PPU {
     //       The PPU Toggle Bit is also cleared
     struct Status {
         var value: Register = 0x80
-        func __conversion() -> Register { return value }
 
         var spriteOverflowFlag: Bool {
             return value & (1 << 5) != 0
