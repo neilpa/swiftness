@@ -25,13 +25,13 @@ class Cartridge {
     // Path on disk to the .nes file
     init(path: String) {
         let data = NSData(contentsOfFile: path)
-        data.getBytes(&header, length: header.count)
+        data?.getBytes(&header, length: header.count)
         
         // TODO Avoid these allocs
         let prgBanks = Int(header[4])
         let prgBytes = prgBanks * prgChunkSize
         var bytes = [Byte](count: prgBytes, repeatedValue: 0)
-        data.getBytes(&bytes, range: NSMakeRange(header.count, prgBytes))
+        data?.getBytes(&bytes, range: NSMakeRange(header.count, prgBytes))
 
         // Mirror the cartridge ROM if it only has 1 memory bank
         var rom: Memory = ROM(data: bytes)
@@ -42,7 +42,7 @@ class Cartridge {
 
         let chrBytes = Int(header[5]) * chrChunkSize
         bytes = [Byte](count: chrBytes, repeatedValue: 0)
-        data.getBytes(&bytes, range: NSMakeRange(header.count + prgBytes, chrBytes))
+        data?.getBytes(&bytes, range: NSMakeRange(header.count + prgBytes, chrBytes))
         chrROM = ROM(data: bytes)
     }
 }
