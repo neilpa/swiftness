@@ -53,30 +53,30 @@ enum AddressingMode {
             return MemorySlot(addr: cpu.fetchWord(), mem: cpu.mem)
 
         case .AbsoluteX:
-            return MemorySlot(addr: cpu.fetchWord() +! Address(cpu.x), mem: cpu.mem)
+            return MemorySlot(addr: cpu.fetchWord() &+ Address(cpu.x), mem: cpu.mem)
 
         case .AbsoluteY:
-            return MemorySlot(addr: cpu.fetchWord() +! Address(cpu.y), mem: cpu.mem)
+            return MemorySlot(addr: cpu.fetchWord() &+ Address(cpu.y), mem: cpu.mem)
 
         case .ZeroPage:
             return MemorySlot(addr: Address(cpu.fetchByte()), mem: cpu.mem)
 
         case .ZeroPageX:
-            return MemorySlot(addr: Address(cpu.fetchByte() +! cpu.x), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetchByte() &+ cpu.x), mem: cpu.mem)
 
         case .ZeroPageY:
-            return MemorySlot(addr: Address(cpu.fetchByte() +! cpu.y), mem: cpu.mem)
+            return MemorySlot(addr: Address(cpu.fetchByte() &+ cpu.y), mem: cpu.mem)
         
         case .Indirect:
             return MemorySlot(addr: readWord(cpu.fetchWord(), cpu.mem), mem: cpu.mem)
 
         case .IndexedIndirectX:
-            let addr: Address = loadZeroPage(cpu.fetchByte() +! cpu.x, cpu)
+            let addr: Address = loadZeroPage(cpu.fetchByte() &+ cpu.x, cpu)
             return MemorySlot(addr: addr, mem: cpu.mem)
 
         case .IndirectIndexedY:
             let base: Address = loadZeroPage(cpu.fetchByte(), cpu)
-            return MemorySlot(addr: base +! Address(cpu.y), mem: cpu.mem)
+            return MemorySlot(addr: base &+ Address(cpu.y), mem: cpu.mem)
             
         // TODO Should this even exist, what about Relative?
         default:
@@ -89,7 +89,7 @@ enum AddressingMode {
     // this wraps to load the high byte from $00 rather than $100
     func loadZeroPage(val: Byte, _ cpu: CPU) -> Address {
         let lsb: Byte = cpu.mem[Address(val)]
-        let msb: Byte = cpu.mem[Address(val +! 1)]
+        let msb: Byte = cpu.mem[Address(val &+ 1)]
         return Address(low: lsb, high: msb)
     }
 }

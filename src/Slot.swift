@@ -68,12 +68,12 @@ class MemorySlot : Slot {
 
     // Absolute/indirect plus offset
     convenience init(base: Address, offset: Byte, mem: Memory) {
-        self.init(addr: base +! Address(offset), mem: mem)
+        self.init(addr: base &+ Address(offset), mem: mem)
     }
 
     // Zero page plus offset
     convenience init(base: Byte, offset: Byte, mem: Memory) {
-        self.init(addr: Address(base +! offset), mem: mem)
+        self.init(addr: Address(base &+ offset), mem: mem)
     }
 
     func load() -> Byte {

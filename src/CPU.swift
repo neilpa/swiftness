@@ -287,7 +287,7 @@ extension CPU {
                 (res, carry) = Byte.addWithOverflow(res, 1)
             } else {
                 // Already, one more bit isn't going to change that
-                res = res +! 1
+                res = res &+ 1
             }
             
             if !overflow {
@@ -313,7 +313,7 @@ extension CPU {
     func compare(mode: AddressingMode, _ reg: Register) {
         let val = mode.resolve(self).load()
         setFlag(reg >= val, carryMask)
-        setNZ(reg -! val)
+        setNZ(reg &- val)
     }
     func cmp(mode: AddressingMode) {
         compare(mode, a)
@@ -328,25 +328,25 @@ extension CPU {
     // Increment operations
     func inc(mode: AddressingMode) {
         let slot = mode.resolve(self)
-        slot.store(setNZ(slot.load() +! 1))
+        slot.store(setNZ(slot.load() &+ 1))
     }
     func inx(mode: AddressingMode) {
-        x = setNZ(x +! 1)
+        x = setNZ(x &+ 1)
     }
     func iny(mode: AddressingMode) {
-        y = setNZ(y +! 1)
+        y = setNZ(y &+ 1)
     }
 
     // Decrement operations
     func dec(mode: AddressingMode) {
         let slot = mode.resolve(self)
-        slot.store(setNZ(slot.load() -! 1))
+        slot.store(setNZ(slot.load() &- 1))
     }
     func dex(mode: AddressingMode) {
-        x = setNZ(x -! 1)
+        x = setNZ(x &- 1)
     }
     func dey(mode: AddressingMode) {
-        y = setNZ(y -! 1)
+        y = setNZ(y &- 1)
     }
 
     // Shift operations

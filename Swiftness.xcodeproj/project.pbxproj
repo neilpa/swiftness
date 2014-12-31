@@ -23,7 +23,6 @@
 		D8CC9DAA197375C600CD8103 /* MemMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA9197375C600CD8103 /* MemMap.swift */; };
 		D8CC9DAC19737E7E00CD8103 /* ROM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DAB19737E7E00CD8103 /* ROM.swift */; };
 		D8D017B61970B9D10092A199 /* Disassembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B51970B9D10092A199 /* Disassembler.swift */; };
-		D8D017B8197111500092A199 /* Overflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B7197111500092A199 /* Overflow.swift */; };
 		D8E2CA321977A1FC00F3AA3D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E2CA311977A1FC00F3AA3D /* Palette.swift */; };
 		D8E2CA331977B62600F3AA3D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E2CA311977A1FC00F3AA3D /* Palette.swift */; };
 		D8E2CA391977BC5500F3AA3D /* NSWindow+CGContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E2CA381977BC5500F3AA3D /* NSWindow+CGContext.m */; };
@@ -62,7 +61,6 @@
 		D8CC9DA9197375C600CD8103 /* MemMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemMap.swift; sourceTree = "<group>"; };
 		D8CC9DAB19737E7E00CD8103 /* ROM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ROM.swift; sourceTree = "<group>"; };
 		D8D017B51970B9D10092A199 /* Disassembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Disassembler.swift; sourceTree = "<group>"; };
-		D8D017B7197111500092A199 /* Overflow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overflow.swift; sourceTree = "<group>"; };
 		D8E2CA311977A1FC00F3AA3D /* Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		D8E2CA351977BA1C00F3AA3D /* SwiftNES-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftNES-Bridging-Header.h"; sourceTree = "<group>"; };
 		D8E2CA381977BC5500F3AA3D /* NSWindow+CGContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+CGContext.m"; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 				D8EDB750196D0D6000548ABE /* main.swift */,
 				D8CC9DA9197375C600CD8103 /* MemMap.swift */,
 				D89367B8196E5F0A0057FF5A /* Memory.swift */,
-				D8D017B7197111500092A199 /* Overflow.swift */,
 				D8CC9DA51973515400CD8103 /* PPU.swift */,
 				D8E2CA311977A1FC00F3AA3D /* Palette.swift */,
 				D89367BA196E5F300057FF5A /* RAM.swift */,
@@ -263,7 +260,6 @@
 				D89367B5196D2B620057FF5A /* Instruction.swift in Sources */,
 				D8E8826C196D2A7900953007 /* CPU.swift in Sources */,
 				D8E2CA321977A1FC00F3AA3D /* Palette.swift in Sources */,
-				D8D017B8197111500092A199 /* Overflow.swift in Sources */,
 				D8CC9DA81973667300CD8103 /* Cartridge.swift in Sources */,
 				D89367B9196E5F0A0057FF5A /* Memory.swift in Sources */,
 				D8EDB751196D0D6000548ABE /* main.swift in Sources */,
