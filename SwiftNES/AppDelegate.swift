@@ -25,11 +25,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var window: NSWindow?
     
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
+        let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
+//        let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
+//        let path = "/Users/neilpa/code/emu/roms/Roms/VS/Soccer (VS).nes"
+        let cart = Cartridge(path: path)
         
-        for y in 0...20 {
-            for x in 0..<256 {
-                screen[y*256 + x].r = 0
-                screen[y*256 + x].g = 255
+        // Dump the pattern tables
+        
+        var ppu = PPU()
+        var cpu = CPU(memory: MemMap(cart: cart, ppu: ppu))
+        //cpu.trace = true
+
+        var count = 0
+        while ++count < 100000 {
+            // TODO Should return num cycles
+            //print(String(format:"%05i", count++) + "  ")
+            cpu.step()
+        }
+        
+        ppu.raster(cart)
+        
+        for y in 0..<screenHeight {
+            for x in 0..<screenWidth {
+                let index = y * screenWidth + x;
+                let color: Byte = ppu.screen[index].R != 0 ? 255 : 0;
+                screen[index].r = color;
+                screen[index].g = color;
+                screen[index].b = color;
             }
         }
         

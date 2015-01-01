@@ -9,6 +9,19 @@
 /* Begin PBXBuildFile section */
 		D839E2EC196E903E00DCEE8E /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2EB196E903E00DCEE8E /* Address.swift */; };
 		D839E2EE196E904500DCEE8E /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2ED196E904500DCEE8E /* Register.swift */; };
+		D83B51E11A54EB7600AD9120 /* PPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA51973515400CD8103 /* PPU.swift */; };
+		D83B51E21A54EF9D00AD9120 /* CPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E8826B196D2A7900953007 /* CPU.swift */; };
+		D83B51E31A54EFA300AD9120 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2EB196E903E00DCEE8E /* Address.swift */; };
+		D83B51E41A54EFAA00AD9120 /* AddressingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B6196D2C1D0057FF5A /* AddressingMode.swift */; };
+		D83B51E51A54EFAA00AD9120 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA71973667300CD8103 /* Cartridge.swift */; };
+		D83B51E61A54EFAA00AD9120 /* Disassembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D017B51970B9D10092A199 /* Disassembler.swift */; };
+		D83B51E71A54EFAA00AD9120 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B4196D2B620057FF5A /* Instruction.swift */; };
+		D83B51E91A54EFAA00AD9120 /* MemMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DA9197375C600CD8103 /* MemMap.swift */; };
+		D83B51EA1A54EFAA00AD9120 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367B8196E5F0A0057FF5A /* Memory.swift */; };
+		D83B51EB1A54EFAA00AD9120 /* RAM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89367BA196E5F300057FF5A /* RAM.swift */; };
+		D83B51EC1A54EFAA00AD9120 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839E2ED196E904500DCEE8E /* Register.swift */; };
+		D83B51ED1A54EFAA00AD9120 /* ROM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC9DAB19737E7E00CD8103 /* ROM.swift */; };
+		D83B51EE1A54EFAA00AD9120 /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8498088196FDDF1002C2E64 /* Slot.swift */; };
 		D8498089196FDDF1002C2E64 /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8498088196FDDF1002C2E64 /* Slot.swift */; };
 		D88D18DC19751BF20060EA46 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88D18DB19751BF20060EA46 /* main.swift */; };
 		D88D18DE19751BF20060EA46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88D18DD19751BF20060EA46 /* AppDelegate.swift */; };
@@ -241,10 +254,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D83B51EB1A54EFAA00AD9120 /* RAM.swift in Sources */,
+				D83B51EE1A54EFAA00AD9120 /* Slot.swift in Sources */,
+				D83B51E41A54EFAA00AD9120 /* AddressingMode.swift in Sources */,
 				D8E2CA331977B62600F3AA3D /* Palette.swift in Sources */,
+				D83B51E51A54EFAA00AD9120 /* Cartridge.swift in Sources */,
+				D83B51E11A54EB7600AD9120 /* PPU.swift in Sources */,
+				D83B51E71A54EFAA00AD9120 /* Instruction.swift in Sources */,
+				D83B51E21A54EF9D00AD9120 /* CPU.swift in Sources */,
 				D8E2CA391977BC5500F3AA3D /* NSWindow+CGContext.m in Sources */,
+				D83B51E91A54EFAA00AD9120 /* MemMap.swift in Sources */,
 				D88D18DE19751BF20060EA46 /* AppDelegate.swift in Sources */,
+				D83B51EA1A54EFAA00AD9120 /* Memory.swift in Sources */,
 				D88D18DC19751BF20060EA46 /* main.swift in Sources */,
+				D83B51E31A54EFA300AD9120 /* Address.swift in Sources */,
+				D83B51ED1A54EFAA00AD9120 /* ROM.swift in Sources */,
+				D83B51EC1A54EFAA00AD9120 /* Register.swift in Sources */,
+				D83B51E61A54EFAA00AD9120 /* Disassembler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
