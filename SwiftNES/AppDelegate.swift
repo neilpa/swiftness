@@ -18,31 +18,90 @@ struct RGB {
     var b: Byte
 }
 
-var screen = [RGB](count:Int(pixels), repeatedValue:RGB(r:255, g:0, b:0))
+
+struct Plane {
+    private let pixels: Slice<Byte>;
+
+    init (_ pixels: Slice<Byte>) {
+        assert(pixels.count == 8)
+        self.pixels = pixels;
+    }
+    
+    func pixel(x: Int, _ y: Int) -> Byte {
+        return (pixels[y] >> Byte(x)) & 1
+    }
+}
+
+// 8x8 grid of pixesl at 2BPP
+struct Tile {
+    private let plane0: Plane
+    private let plane1: Plane
+
+    init (pixels: Slice<Byte>) {
+        assert(pixels.count == 16)
+        plane0 = Plane(prefix(pixels, 8))
+        plane1 = Plane(suffix(pixels, 8))
+    }
+    
+    func pixel(x: Int, _ y: Int) -> Byte {
+        let b0 = plane0.pixel(x, y)
+        let b1 = plane1.pixel(x, y)
+        return Byte(b1 << 1) | b0
+    }
+}
 
 class AppDelegate: NSObject, NSApplicationDelegate {
                             
     @IBOutlet var window: NSWindow?
-    
+
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
-        let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
-//        let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
+//        let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
+        let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
 //        let path = "/Users/neilpa/code/emu/roms/Roms/VS/Soccer (VS).nes"
         let cart = Cartridge(path: path)
         
-        // Dump the pattern tables
+        var screen = [RGB](count:Int(pixels), repeatedValue:RGB(r:0, g:0, b:0))
+        
+//        var tiles: [Tile] = []
+//        for i in 0..<960 {
+//            let index = i * 16
+//            let slice = cart.chrROM.data[index..<index+16]
+//            tiles.append(Tile(pixels: slice))
+//        }
+//        
+//        for y in 0..<240 {
+//            for x in 0..<256 {
+//                let tile = tiles[(y/8) * 32 + x/8]
+//                let color = tile.pixel(x % 8, y % 8)
+//                let index = y * 256 + x
+//
+//                switch color {
+//                case 1: screen[index].r = 255
+//                case 2: screen[index].g = 255
+//                case 3: screen[index].b = 255
+//                default: break
+//                }
+//            }
+//        }
         
         var ppu = PPU()
         var cpu = CPU(memory: MemMap(cart: cart, ppu: ppu))
-        //cpu.trace = true
 
         var count = 0
-        while ++count < 100000 {
+        while ++count < 20000 {
             // TODO Should return num cycles
             //print(String(format:"%05i", count++) + "  ")
             cpu.step()
         }
         
+        cpu.nmi()
+
+        count = 0
+        cpu.trace = true
+        while ++count < 5000 {
+            cpu.step()
+        }
+
         ppu.raster(cart)
         
         for y in 0..<screenHeight {

@@ -115,6 +115,23 @@ class CPU {
         return (instr.type, instr.mode)
     }
     
+    func reset() {
+        // TODO
+    }
+    
+    // Generate a non-maskable interrupt (e.g. vblank)
+    func nmi() {
+        // TODO Is this right?
+        push(pc.highByte)
+        push(pc.lowByte)
+        push(flags)
+        pc = readWord(nmiVector, mem)
+    }
+    
+    func irq() {
+        // TODO
+    }
+    
     // Step a single fetch-decode-execute cycle
     func step() {
         if trace {
