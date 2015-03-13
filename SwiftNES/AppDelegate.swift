@@ -8,8 +8,8 @@
 
 import Cocoa
 
-let width: UInt = 256
-let height: UInt = 240
+let width: Int = 256
+let height: Int = 240
 let pixels = width * height
 
 struct RGB {
@@ -20,9 +20,9 @@ struct RGB {
 
 
 struct Plane {
-    private let pixels: Slice<Byte>;
+    private let pixels: ArraySlice<Byte>;
 
-    init (_ pixels: Slice<Byte>) {
+    init (_ pixels: ArraySlice<Byte>) {
         assert(pixels.count == 8)
         self.pixels = pixels;
     }
@@ -37,7 +37,7 @@ struct Tile {
     private let plane0: Plane
     private let plane1: Plane
 
-    init (pixels: Slice<Byte>) {
+    init (pixels: ArraySlice<Byte>) {
         assert(pixels.count == 16)
         plane0 = Plane(prefix(pixels, 8))
         plane1 = Plane(suffix(pixels, 8))
@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             
     @IBOutlet var window: NSWindow?
 
-    func applicationDidFinishLaunching(aNotification: NSNotification?) {
+    func applicationDidFinishLaunching(aNotification: NSNotification) {
 //        let path = "/Users/neilpa/code/emu/nes/test/nestest.nes"
         let path = "/Users/neilpa/code/emu/roms/Roms/VS/VS Super Mario Bros (VS).nes"
 //        let path = "/Users/neilpa/code/emu/roms/Roms/VS/Soccer (VS).nes"
@@ -114,7 +114,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-//        let context: CGContext? = window?.cgContext()
         let context: CGContext! = window?.cgContext()
         let data = NSData(bytes: screen, length: screen.count * sizeof(RGB))
         let provider = CGDataProviderCreateWithCFData(data)
@@ -122,7 +121,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let info = CGBitmapInfo.ByteOrderDefault
 
         let image = CGImageCreate(width, height, 8, 24, 3 * width, colorspace, info, provider, nil, false, kCGRenderingIntentDefault);
-        
+
         CGContextSetInterpolationQuality(context, kCGInterpolationNone);
         CGContextSetShouldAntialias(context, false);
         CGContextScaleCTM(context, 2, 2);
@@ -130,7 +129,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         CGContextDrawImage(context, CGRect(x: 0, y: 0, width: 256, height: 240), image);
     }
     
-    func applicationWillTerminate(aNotification: NSNotification?) {
+    func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
     }
 

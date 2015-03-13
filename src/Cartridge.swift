@@ -14,7 +14,7 @@ let chrChunkSize = 8 * 1024
 class Cartridge {
     
     // The 16-byte iNES header
-    let header: [Byte] = [Byte](count: 16, repeatedValue: 0)
+    var header: [Byte] = [Byte](count: 16, repeatedValue: 0)
 
     // Program ROM on the cart
     let prgROM: Memory
@@ -26,7 +26,7 @@ class Cartridge {
     init(path: String) {
         let data = NSData(contentsOfFile: path)
         data?.getBytes(&header, length: header.count)
-        
+
         // TODO Avoid these allocs
         let prgBanks = Int(header[4])
         let prgBytes = prgBanks * prgChunkSize
